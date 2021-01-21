@@ -9,6 +9,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dito_kayo_magtest_wrap_at_match_lagi);
+        setContentView(R.layout.add_entry);
     }
 }

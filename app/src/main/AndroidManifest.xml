@@ -18,7 +18,7 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-       <!-- <activity
+        <activity
             android:name=".Registration"
             android:parentActivityName=".Registration">
             <intent-filter>
@@ -26,7 +26,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> -->
+        </activity>
 <!--        Wag nyo muna gagalawin to mga pre-->
 <!--        <activity android:name=".MainActivity">-->
 <!--            <intent-filter>-->
@@ -35,15 +35,6 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
-        <activity
-            android:name=".MainActivity"
-            android:parentActivityName=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

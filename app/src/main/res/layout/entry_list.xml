@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/bg_sa_enrylist"
     android:orientation="vertical"
     android:layout_weight="4"
     tools:context=".MainActivity">
@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_cancel"
         android:layout_width="160dp"
-        android:layout_gravity="center"
         android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/addnew_entry" />
 
 
