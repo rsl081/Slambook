@@ -4,21 +4,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.slambook.Accounts;
-import com.example.slambook.MainActivity;
-import com.example.slambook.R;
-
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,30 +32,52 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private Button registerBtn;
     private Toast popUp;
     private String name, pass;
-    Accounts accounts;
+    Accounts[] accounts = new Accounts[3];
+    Accounts myAccounts;
     private ArrayList<Accounts> accountsArrayList = new ArrayList<>();
+    Intent myIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
         init();
     }
 
     private void init() {
-        accountsArrayList.add(new Accounts(
-                "Anna",
-                "13579abcdeA",
-                "Anna Lisa"));
-        accountsArrayList.add(new Accounts(
-                "Lorna",
-                "Th3Q41ckBr0wnF0x",
-                "Lorna Dee"));
-        accountsArrayList.add(new Accounts(
-                "_Fe_",
-                "p@zzW0rd",
-                "Fe Rari"));
+
+        //Anna
+    accounts[0] = new Accounts(
+    "Anna",
+    "123",
+//                "13579abcdeA",
+    "Anna Lisa", new Person[]{
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+            "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
+    accountsArrayList.add(accounts[0]);
+    //Lorna
+    accounts[1] = new Accounts(
+            "Lorna",
+            "Th3Q41ckBr0wnF0x",
+            "Lorna Dee", new Person[]{
+            new Person(R.drawable.woman, "Lorna Santos", "BestFriend", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Russel Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
+    accountsArrayList.add(accounts[1]);
+
+    //_Fe_
+    accounts[2] = new Accounts(
+            "_Fe_",
+            "p@zzW0rd",
+            "Fe Rari", new Person[]{
+            new Person(R.drawable.woman, "Fe Santos", "BestFriend", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Russel Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Gg Kayo Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
+    accountsArrayList.add(accounts[2]);
 
         //Button
         loginBtn = findViewById(R.id.id_LoginButton);
@@ -94,6 +120,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         } else {
             if (CredentialVerification()) {
                 CustomToast();
+                myIntent = new Intent(this, HomeActivity.class);
+                Intent();
+                this.startActivity(myIntent);
             } else {
                 AlertDialag();
             }
@@ -145,5 +174,27 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
         return false;
     }//end of CredentialVerification CURLY BRACES
+
+
+
+
+
+    public void Intent(){
+
+        myIntent.putExtra("username", name);
+        myIntent.putExtra("password", pass);
+
+        myIntent.putExtra("anna", accounts[0].getAccountName());
+        myIntent.putExtra("anna_1", accounts[0].person[0]);
+
+        myIntent.putExtra("lorna", accounts[1].getAccountName());
+        myIntent.putExtra("lorna_1", accounts[1].person[0]);
+        myIntent.putExtra("lorna_2", accounts[1].person[1]);
+
+        myIntent.putExtra("fe", accounts[2].getAccountName());
+        myIntent.putExtra("fe_1", accounts[2].person[0]);
+        myIntent.putExtra("fe_2", accounts[2].person[1]);
+        myIntent.putExtra("fe_3", accounts[2].person[2]);
+    }
 
 }

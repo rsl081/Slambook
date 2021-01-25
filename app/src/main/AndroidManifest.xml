@@ -9,32 +9,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Slambook">
-<!--        <activity-->
-<!--            android:name=".Login"-->
-<!--            android:parentActivityName=".Login">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
         <activity
-            android:name=".Registration"
-            android:parentActivityName=".Registration">
+            android:name=".ViewEntry"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeActivity"
+            android:parentActivityName=".HomeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Login"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        Wag nyo muna gagalawin to mga pre-->
-<!--        <activity android:name=".MainActivity">-->
+
+<!--        <activity-->
+<!--            android:name=".Registration"-->
+<!--            android:parentActivityName=".Registration">-->
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
 <!--        </activity>-->
+<!--        Wag nyo muna gagalawin to mga pre-->
+<!--        <activity android:name=".HomeActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity android:label="@string/app_name" android:name=".Login"/>-->
     </application>
 
 </manifest>

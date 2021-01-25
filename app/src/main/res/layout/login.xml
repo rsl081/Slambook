@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     android:radius="60dp"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".HomeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
