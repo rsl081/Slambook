@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_weight="4"
     tools:context=".ViewEntry">
-
+//viewentry
 
     <Space
         android:layout_width="match_parent"
