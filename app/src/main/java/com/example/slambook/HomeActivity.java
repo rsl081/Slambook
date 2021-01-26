@@ -1,29 +1,38 @@
 package com.example.slambook;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.accounts.Account;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
+    TextView max;
+    //Add the Person objects to an ArrayList
+    ArrayList<Person> peopleList = new ArrayList<>();
+    PersonListAdapter personListAdapter;
+    //Add the Accounts objects to an ArrayList
+    ArrayList<String> accountList = new ArrayList<>();
+    AccountListAdapter accountListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_list);
+
+        max = findViewById(R.id.textView2);
+
         ListView myListView = (ListView) findViewById(R.id.listView);
         ListView myListView1 = (ListView) findViewById(R.id.listView_username);
 
@@ -44,10 +53,6 @@ public class HomeActivity extends AppCompatActivity {
         Person account_fe_2 = (Person) data.getParcelable("fe_2");
         Person account_fe_3 = (Person) data.getParcelable("fe_3");
 
-        //Add the Person objects to an ArrayList
-        ArrayList<Person> peopleList = new ArrayList<>();
-        //Add the Accounts objects to an ArrayList
-        ArrayList<String> accountList = new ArrayList<>();
 
         if(username.equals("Anna") && password.equals("123")){
             accountList.add(anna);
@@ -76,37 +81,55 @@ public class HomeActivity extends AppCompatActivity {
 //        peopleList.add(account_fe_1);
 
 
-        PersonListAdapter adapter0 = new PersonListAdapter(this, R.layout.individual_entry_1, peopleList);
-        myListView.setAdapter(adapter0);
+        personListAdapter = new PersonListAdapter(this, R.layout.individual_entry_1, peopleList);
+        myListView.setAdapter(personListAdapter);
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(getApplicationContext(), "ListView"+ i, Toast.LENGTH_LONG).show();
-                Intent intentToViewEntryAct = new Intent(new Intent(HomeActivity.this, ViewEntry.class));
+                Intent intentToViewEntryAct = new Intent(HomeActivity.this, ViewEntry.class);
                 intentToViewEntryAct.putExtra("ViewList", peopleList.get(i));
                 startActivity(intentToViewEntryAct);
             }
         });
 
-        adapter0.setOnClickListener(new PersonListAdapter.OnClickListener() {
+        personListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
             @Override
             public void OnClickListener(int position) {
                 peopleList.remove(position);
-                adapter0.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "Tite" + position, Toast.LENGTH_LONG).show();
+                personListAdapter.notifyDataSetChanged();
             }
         });
 
-        AccountListAdapter adapter1 = new AccountListAdapter(this, R.layout.individual_user_2, accountList);
-        myListView1.setAdapter(adapter1);
+        accountListAdapter = new AccountListAdapter(this, R.layout.individual_user_2, accountList);
+        myListView1.setAdapter(accountListAdapter);
 
-        adapter1.setOnClickListener(new PersonListAdapter.OnClickListener() {
+        accountListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
             @Override
             public void OnClickListener(int position) {
                 Logout();
             }
         });
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                int position = data.getIntExtra("editTextValue", 0);
+                String goodAh = Integer.toString(position);
+                max.setText(goodAh);
+                Log.d("happy", "hahah");
+                peopleList.set(position,  new Person(R.drawable.woman, "PutangIna mo", "BestFriend", "March 12 2020",
+                        "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"));
+                personListAdapter.notifyDataSetChanged();
+//                Person g = new Person(R.drawable.woman, "PutangIna mo", "BestFriend", "March 12 2020",
+//                        "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars");
+            }
+        }
+    }
+
     public void Logout() {
         AlertDialog.Builder bldg = new AlertDialog.Builder(this);
         bldg.setTitle("Are you sure you want to logout?");

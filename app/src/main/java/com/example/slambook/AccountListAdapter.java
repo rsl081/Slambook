@@ -84,10 +84,6 @@ public class AccountListAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
-    public interface OnClickListener {
-        public void OnClickListener(int position);
-    }
-
     public void setOnClickListener(PersonListAdapter.OnClickListener listener) {
         this.listener = listener;
     }

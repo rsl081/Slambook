@@ -7,14 +7,14 @@
     android:background="@drawable/bg_sa_adnew_entry"
     android:orientation="vertical"
     android:layout_weight="4"
-    tools:context=".ViewEntry">
+    tools:context=".HomeActivity">
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
     <ImageView
-        android:id="@+id/profile_pic"
+        android:id="@+id/capture"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         app:srcCompat="@drawable/capture" />
@@ -23,17 +23,19 @@
         android:layout_width="match_parent"
         android:layout_height="10dp" />
 
-    <TextView
+    <EditText
         android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="70dp"
         android:layout_marginEnd="70dp"
-        android:text="Name:"
-        android:textSize="18dp"
+        android:ems="10"
+        android:hint="Name*"
         android:backgroundTint="#ffffff"
-        android:textColor="#FFFFFF" />
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic" />
 
     <EditText
         android:id="@+id/remark"
@@ -46,7 +48,8 @@
         android:ems="10"
         android:hint="Remark*"
         android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF" />
+        android:textColorHint="#FFFFFF"
+        android:textStyle="italic" />
     <EditText
         android:id="@+id/birthday"
         android:layout_width="match_parent"
@@ -60,14 +63,6 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textStyle="italic" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_addEntry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/addentrybutton" />
 
     <TextView
         android:id="@+id/txtview_gender"
@@ -179,6 +174,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_editEntry"
+            android:layout_width="160dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/addentrybutton" />
     </LinearLayout>
 
 </LinearLayout>
