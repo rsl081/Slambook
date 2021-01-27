@@ -1,6 +1,8 @@
 package com.example.slambook;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ public class PersonListAdapter extends ArrayAdapter<Person> {
     private Context mContext;
     private int mResource;
     private OnClickListener listener;
+    private OnClickListener listener2;
 
 
     /**
@@ -33,6 +36,7 @@ public class PersonListAdapter extends ArrayAdapter<Person> {
         TextView name;
         TextView remark;
         Button deleteBtn;
+        Button editBtn;
     }
 
     /**
@@ -79,6 +83,7 @@ public class PersonListAdapter extends ArrayAdapter<Person> {
             holder.name = (TextView) convertView.findViewById(R.id.indiviName);
             holder.remark = (TextView) convertView.findViewById(R.id.indiviRemark);
             holder.deleteBtn = (Button) convertView.findViewById(R.id.deleteBtn);
+            holder.editBtn = (Button) convertView.findViewById(R.id.editBtn);
 
             result = convertView;
 
@@ -92,6 +97,7 @@ public class PersonListAdapter extends ArrayAdapter<Person> {
         holder.profilePic.setImageResource(person.getProfilePic());
         holder.name.setText(person.getAccountName());
         holder.remark.setText(person.getRemark());
+
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,15 +107,28 @@ public class PersonListAdapter extends ArrayAdapter<Person> {
             }
         });
 
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(listener2 != null){
+                    listener2.OnClickListener(position);
+                }
+            }
+        });
+
         return convertView;
     }
-    
+
+
     public interface OnClickListener {
         public void OnClickListener(int position);
     }
 
     public void setOnClickListener(OnClickListener listener) {
         this.listener = listener;
+    }
+    public void setOnClickListener2(OnClickListener listener2) {
+        this.listener2 = listener2;
     }
 
 

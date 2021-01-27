@@ -1,10 +1,15 @@
+
 package com.example.slambook;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +39,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private Toast popUp;
     private String name, pass;
     Accounts[] accounts = new Accounts[3];
-    Accounts myAccounts;
     private ArrayList<Accounts> accountsArrayList = new ArrayList<>();
     Intent myIntent;
 
@@ -45,7 +50,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void init() {
-
         //Anna
     accounts[0] = new Accounts(
     "Anna",
@@ -53,7 +57,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 //                "13579abcdeA",
     "Anna Lisa", new Person[]{
             new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
-            "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
+            "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
     accountsArrayList.add(accounts[0]);
     //Lorna
     accounts[1] = new Accounts(
@@ -78,7 +82,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             new Person(R.drawable.woman, "Gg Kayo Pogi", "Handsome", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
     accountsArrayList.add(accounts[2]);
-
         //Button
         loginBtn = findViewById(R.id.id_LoginButton);
         registerBtn = findViewById(R.id.id_RegisterButton);

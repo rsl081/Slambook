@@ -1,12 +1,15 @@
 package com.example.slambook;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 public class Person implements Parcelable {
-
     private int profilePic;
+    private Bitmap bitmapImage;
     private String name;
     private String remark;
     private String birthday;
@@ -28,9 +31,22 @@ public class Person implements Parcelable {
         this.goals = goals;
     }
 
+    public Person(Bitmap bitmapImage, String name, String remark, String birthday, String gender, String address, String contact, String hobbies, String goals) {
+        this.bitmapImage = bitmapImage;
+        this.name = name;
+        this.remark = remark;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.address = address;
+        this.contact = contact;
+        this.hobbies = hobbies;
+        this.goals = goals;
+    }
+
     // Parcelable
     public Person(Parcel in){
         this.profilePic = in.readInt();
+        this.bitmapImage = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
 
         String[] data = new String[8];
 
@@ -45,6 +61,8 @@ public class Person implements Parcelable {
         this.hobbies = data[6];
         this.goals = data[7];
     }
+
+    public void setBitmapImage(Bitmap bitmapImage) { this.bitmapImage = bitmapImage; }
 
     public void setProfilePic(int profilePic) { this.profilePic = profilePic;}
 
@@ -77,6 +95,8 @@ public class Person implements Parcelable {
     }
 
     public void setGoals(String goals) { this.goals = goals; }
+
+    public Bitmap getBitmapImage() { return bitmapImage; }
 
     public int getProfilePic() {
         return profilePic;
@@ -121,6 +141,7 @@ public class Person implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(this.profilePic);
+        parcel.writeValue(this.bitmapImage);
         parcel.writeStringArray(new String[] {  this.name,
                                                 this.remark,
                                                 this.birthday,

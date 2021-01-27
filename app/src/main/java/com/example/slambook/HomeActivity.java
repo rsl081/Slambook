@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +22,8 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView max;
+    public static final String POSITION = "com.example.slambook.POSITION";
+    public static final String PEOPLE_LIST = "com.example.slambook.PEOPLE_LIST";
     //Add the Person objects to an ArrayList
     ArrayList<Person> peopleList = new ArrayList<>();
     PersonListAdapter personListAdapter;
@@ -30,9 +35,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_list);
+        Init();
+    }
 
-        max = findViewById(R.id.textView2);
-
+    private void Init(){
         ListView myListView = (ListView) findViewById(R.id.listView);
         ListView myListView1 = (ListView) findViewById(R.id.listView_username);
 
@@ -68,19 +74,6 @@ public class HomeActivity extends AppCompatActivity {
             peopleList.add(account_fe_3);
         }
 
-//        Person account_fe_1 = new Person("Fe Santos", "BestFriend", "March 12 2020",
-//                "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars");
-//
-//                //Add the Person objects to an ArrayList
-//        ArrayList<Person> peopleList = new ArrayList<>();
-//        //Add the Accounts objects to an ArrayList
-//        ArrayList<String> accountList = new ArrayList<>();
-//
-//
-//        accountList.add("happy");
-//        peopleList.add(account_fe_1);
-
-
         personListAdapter = new PersonListAdapter(this, R.layout.individual_entry_1, peopleList);
         myListView.setAdapter(personListAdapter);
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,14 +82,24 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intentToViewEntryAct = new Intent(HomeActivity.this, ViewEntry.class);
                 intentToViewEntryAct.putExtra("ViewList", peopleList.get(i));
                 startActivity(intentToViewEntryAct);
+                //putanganina mo hindi dito
             }
         });
 
         personListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
             @Override
             public void OnClickListener(int position) {
-                peopleList.remove(position);
-                personListAdapter.notifyDataSetChanged();
+                DeleteList(position);
+            }
+        });
+
+        personListAdapter.setOnClickListener2(new PersonListAdapter.OnClickListener() {
+            @Override
+            public void OnClickListener(int position) {
+                Intent intentToEditEntryAct = new Intent(HomeActivity.this, EditEntry.class);
+                intentToEditEntryAct.putExtra(POSITION, position);
+                intentToEditEntryAct.putExtra(PEOPLE_LIST, peopleList.get(position));
+                startActivityForResult(intentToEditEntryAct, 1);
             }
         });
 
@@ -109,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
                 Logout();
             }
         });
-
     }
 
     @Override
@@ -117,17 +119,31 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                int position = data.getIntExtra("editTextValue", 0);
-                String goodAh = Integer.toString(position);
-                max.setText(goodAh);
-                Log.d("happy", "hahah");
-                peopleList.set(position,  new Person(R.drawable.woman, "PutangIna mo", "BestFriend", "March 12 2020",
-                        "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"));
+                int position = data.getIntExtra("update_list", 0);
+                Bitmap newProfilePic = (Bitmap) data.getParcelableExtra("my_photo");
+                String newName = data.getStringExtra("name");
+                String newRemark = data.getStringExtra("remark");
+                String newBday = data.getStringExtra("bday");
+                String newGender = data.getStringExtra("gender");
+                String newAddress = data.getStringExtra("address");
+                String newContact = data.getStringExtra("contact");
+                String newHobbies = data.getStringExtra("hobbies");
+                String newGoals = data.getStringExtra("goals");
+
+                peopleList.set(position,  new Person(newProfilePic, newName, newRemark, newBday,
+                        newGender, newAddress, newContact, newHobbies, newGoals));
                 personListAdapter.notifyDataSetChanged();
-//                Person g = new Person(R.drawable.woman, "PutangIna mo", "BestFriend", "March 12 2020",
-//                        "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars");
+//                getIntent().removeExtra(newName);
+//                getIntent().removeExtra(newRemark);
+//                getIntent().removeExtra(newBday);
+//                getIntent().removeExtra(newGender);
+//                getIntent().removeExtra(newAddress);
+//                getIntent().removeExtra(newContact);
+//                getIntent().removeExtra(newHobbies);
+//                getIntent().removeExtra(newGoals);
             }
         }
+
     }
 
     public void Logout() {
@@ -148,5 +164,24 @@ public class HomeActivity extends AppCompatActivity {
         bldg.show();
     }//end of Logout CURLY BRACES
 
+
+    public void DeleteList(int position) {
+        AlertDialog.Builder bldg = new AlertDialog.Builder(this);
+        bldg.setTitle("Are you sure you want to delete?");
+        bldg.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                peopleList.remove(position);
+                personListAdapter.notifyDataSetChanged();
+            }
+        });
+        bldg.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(HomeActivity.this, "Cancel!", Toast.LENGTH_LONG).show();
+            }
+        });
+        bldg.show();
+    }//end of Logout CURLY BRACES
 
 }

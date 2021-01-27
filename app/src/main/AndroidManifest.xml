@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.slambook">
+<!--    <uses-feature android:name="android.hardware.camera"></uses-feature>-->
+    <uses-permission android:name="android.permission.CAMERA"> </uses-permission>
 
     <application
         android:allowBackup="true"
@@ -14,6 +16,13 @@
             android:parentActivityName=".HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EditEntry"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".HomeActivity"
             android:parentActivityName=".HomeActivity"

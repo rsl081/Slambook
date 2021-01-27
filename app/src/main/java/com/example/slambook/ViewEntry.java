@@ -23,32 +23,52 @@ public class ViewEntry extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_entry_list);
+        Init();
+    }
+
+    private void Init (){
         Intent intent = getIntent();
-        int positionOfPeopleList = intent.getIntExtra("position", 0);
 
         Person person = intent.getParcelableExtra("ViewList");
 
         int profilePic = person.getProfilePic();
         String name = person.getAccountName();
+        String remark = person.getRemark();
+        String birthday = person.getBirthday();
+        String gender = person.getGender();
+        String address = person.getAddress();
+        String contact = person.getContact();
+        String hobbies = person.getHobbies();
+        String goals = person.getGoals();
 
         ImageView profilePicImageView = findViewById(R.id.profile_pic);
-        profilePicImageView.setImageResource(profilePic);
+        TextView textViewName = findViewById(R.id.txt_name);
+        TextView textViewRemark = findViewById(R.id.txt_remark);
+        TextView textViewBday = findViewById(R.id.txt_bday);
+        TextView textViewGender = findViewById(R.id.txt_gender);
+        TextView textViewAddress = findViewById(R.id.txt_address);
+        TextView textViewContact = findViewById(R.id.txt_contact);
+        TextView textViewHobbies = findViewById(R.id.txt_hobbies);
+        TextView textViewGoals = findViewById(R.id.txt_goals);
 
-        TextView textView = findViewById(R.id.edt_name);
-        textView.setText(name);
+        profilePicImageView.setImageResource(profilePic);
+        textViewName.setText(name);
+        textViewRemark.setText(remark);
+        textViewBday.setText(birthday);
+        textViewGender.setText(gender);
+        textViewAddress.setText(address);
+        textViewContact.setText(contact);
+        textViewHobbies.setText(hobbies);
+        textViewGoals.setText(goals);
 
         Button btnUpdate = findViewById(R.id.btn_addEntry);
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent qwe = new Intent();
-                qwe.putExtra("editTextValue", positionOfPeopleList);
-                setResult(RESULT_OK, qwe);
                 finish();
             }
         });
-
     }
 
 }

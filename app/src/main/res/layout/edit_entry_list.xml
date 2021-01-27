@@ -7,7 +7,17 @@
     android:background="@drawable/bg_sa_adnew_entry"
     android:orientation="vertical"
     android:layout_weight="4"
-    tools:context=".HomeActivity">
+    tools:context=".EditEntry">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <Space
         android:layout_width="match_parent"
@@ -17,11 +27,14 @@
         android:id="@+id/capture"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/capture" />
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/capture"/>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="10dp" />
+
 
     <EditText
         android:id="@+id/edt_name"
@@ -113,8 +126,9 @@
             android:textStyle="italic" />
     </RadioGroup>
 
+
     <EditText
-        android:id="@+id/adress"
+        android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -156,7 +170,7 @@
         android:textStyle="italic" />
 
     <EditText
-        android:id="@+id/Goals"
+        android:id="@+id/goals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -171,16 +185,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_editEntry"
             android:layout_width="160dp"
             android:layout_height="55dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/addentrybutton" />
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/updateentrylist" />
     </LinearLayout>
-
+    </LinearLayout>
+</ScrollView>
 </LinearLayout>
