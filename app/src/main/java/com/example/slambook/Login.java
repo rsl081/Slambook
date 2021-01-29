@@ -42,11 +42,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         //Anna
     accountsArray[0] = new Accounts(
     "Anna",
-    "123",
-//                "13579abcdeA",
+    "13579abcdeA",
     "Anna Lisa", new Person[]{
+            new Person(R.drawable.man,"Bino Santos", "BestFriend", "March 12 2020",
+            "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
             new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
-            "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.man,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.man,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
     accountsArrayList.add(accountsArray[0]);
 
     //Lorna
@@ -57,7 +74,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             new Person(R.drawable.woman, "Lorna Santos", "BestFriend", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
             new Person(R.drawable.woman, "Russel Pogi", "Handsome", "March 12 2020",
-                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                        "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+                    "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
     accountsArrayList.add(accountsArray[1]);
 
     //_Fe_
@@ -67,7 +100,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             "Fe Rari", new Person[]{
             new Person(R.drawable.woman, "Fe Santos", "BestFriend", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.man, "Russel Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.man, "Gg Kayo Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Fe Santos", "BestFriend", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.man, "Russel Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Gg Kayo Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Fe Santos", "BestFriend", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
             new Person(R.drawable.woman, "Russel Pogi", "Handsome", "March 12 2020",
+                    "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
+            new Person(R.drawable.woman, "Gg Kayo Pogi", "Handsome", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
             new Person(R.drawable.woman, "Gg Kayo Pogi", "Handsome", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
@@ -176,21 +223,45 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         myIntent.putExtra("username", name);
         myIntent.putExtra("password", pass);
 
-        if(name.equals("Anna") && pass.equals("123")){
+        if(name.equals("Anna") && pass.equals("13579abcdeA")){
             accounts.setAccountName(accountsArray[0].getAccountName());
             myIntent.putExtra("anna", accounts);
             myIntent.putExtra("anna_1", accountsArray[0].person[0]);
+            myIntent.putExtra("anna_2", accountsArray[0].person[1]);
+            myIntent.putExtra("anna_3", accountsArray[0].person[2]);
+            myIntent.putExtra("anna_4", accountsArray[0].person[3]);
+            myIntent.putExtra("anna_5", accountsArray[0].person[4]);
+            myIntent.putExtra("anna_6", accountsArray[0].person[5]);
+            myIntent.putExtra("anna_7", accountsArray[0].person[6]);
+            myIntent.putExtra("anna_8", accountsArray[0].person[7]);
+            myIntent.putExtra("anna_9", accountsArray[0].person[8]);
+            myIntent.putExtra("anna_10", accountsArray[0].person[9]);
         }else if(name.equals("Lorna") && pass.equals("Th3Q41ckBr0wnF0x")){
             accounts.setAccountName(accountsArray[1].getAccountName());
             myIntent.putExtra("lorna", accounts);
             myIntent.putExtra("lorna_1", accountsArray[1].person[0]);
             myIntent.putExtra("lorna_2", accountsArray[1].person[1]);
+            myIntent.putExtra("lorna_3", accountsArray[1].person[2]);
+            myIntent.putExtra("lorna_4", accountsArray[1].person[3]);
+            myIntent.putExtra("lorna_5", accountsArray[1].person[4]);
+            myIntent.putExtra("lorna_6", accountsArray[1].person[5]);
+            myIntent.putExtra("lorna_7", accountsArray[1].person[6]);
+            myIntent.putExtra("lorna_8", accountsArray[1].person[7]);
+            myIntent.putExtra("lorna_9", accountsArray[1].person[8]);
+            myIntent.putExtra("lorna_10", accountsArray[1].person[9]);
         }else if(name.equals("_Fe_") && pass.equals("p@zzW0rd")){
             accounts.setAccountName(accountsArray[2].getAccountName());
             myIntent.putExtra("fe", accounts);
             myIntent.putExtra("fe_1", accountsArray[2].person[0]);
             myIntent.putExtra("fe_2", accountsArray[2].person[1]);
             myIntent.putExtra("fe_3", accountsArray[2].person[2]);
+            myIntent.putExtra("fe_4", accountsArray[2].person[3]);
+            myIntent.putExtra("fe_5", accountsArray[2].person[4]);
+            myIntent.putExtra("fe_6", accountsArray[2].person[5]);
+            myIntent.putExtra("fe_7", accountsArray[2].person[6]);
+            myIntent.putExtra("fe_8", accountsArray[2].person[7]);
+            myIntent.putExtra("fe_9", accountsArray[2].person[8]);
+            myIntent.putExtra("fe_10", accountsArray[2].person[9]);
         }
 
 

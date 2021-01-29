@@ -38,7 +38,9 @@
         <activity
             android:name=".Registration"
             android:parentActivityName=".Login"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Login"
             android:screenOrientation="portrait"

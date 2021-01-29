@@ -68,22 +68,55 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             Accounts anna = intent.getParcelableExtra("anna");
             Person account_anna_1 = (Person) data.getParcelable("anna_1");
+            Person account_anna_2 = (Person) data.getParcelable("anna_2");
+            Person account_anna_3 = (Person) data.getParcelable("anna_3");
+            Person account_anna_4 = (Person) data.getParcelable("anna_4");
+            Person account_anna_5 = (Person) data.getParcelable("anna_5");
+            Person account_anna_6 = (Person) data.getParcelable("anna_6");
+            Person account_anna_7 = (Person) data.getParcelable("anna_7");
+            Person account_anna_8 = (Person) data.getParcelable("anna_8");
+            Person account_anna_9 = (Person) data.getParcelable("anna_9");
+            Person account_anna_10 = (Person) data.getParcelable("anna_10");
 
             Accounts lorna = intent.getParcelableExtra("lorna");
             Person account_lorna_1 = (Person) data.getParcelable("lorna_1");
             Person account_lorna_2 = (Person) data.getParcelable("lorna_2");
+            Person account_lorna_3 = (Person) data.getParcelable("lorna_3");
+            Person account_lorna_4 = (Person) data.getParcelable("lorna_4");
+            Person account_lorna_5 = (Person) data.getParcelable("lorna_5");
+            Person account_lorna_6 = (Person) data.getParcelable("lorna_6");
+            Person account_lorna_7 = (Person) data.getParcelable("lorna_7");
+            Person account_lorna_8 = (Person) data.getParcelable("lorna_8");
+            Person account_lorna_9 = (Person) data.getParcelable("lorna_9");
+            Person account_lorna_10 = (Person) data.getParcelable("lorna_10");
 
             Accounts fe = intent.getParcelableExtra("fe");
             Person account_fe_1 = (Person) data.getParcelable("fe_1");
             Person account_fe_2 = (Person) data.getParcelable("fe_2");
             Person account_fe_3 = (Person) data.getParcelable("fe_3");
+            Person account_fe_4 = (Person) data.getParcelable("fe_4");
+            Person account_fe_5 = (Person) data.getParcelable("fe_5");
+            Person account_fe_6 = (Person) data.getParcelable("fe_6");
+            Person account_fe_7 = (Person) data.getParcelable("fe_7");
+            Person account_fe_8 = (Person) data.getParcelable("fe_8");
+            Person account_fe_9 = (Person) data.getParcelable("fe_9");
+            Person account_fe_10 = (Person) data.getParcelable("fe_10");
 
             if(new_regist_user != null){
                 accountList.add(new_regist_user);
             }else {
-                if (username.equals("Anna") && password.equals("123")) {
+                if (username.equals("Anna") && password.equals("13579abcdeA")) {
                     accountList.add(anna);
                     peopleList.add(account_anna_1);
+                    peopleList.add(account_anna_2);
+                    peopleList.add(account_anna_3);
+                    peopleList.add(account_anna_4);
+                    peopleList.add(account_anna_5);
+                    peopleList.add(account_anna_6);
+                    peopleList.add(account_anna_7);
+                    peopleList.add(account_anna_8);
+                    peopleList.add(account_anna_9);
+                    peopleList.add(account_anna_10);
                 } else if (username.equals("Lorna") && password.equals("Th3Q41ckBr0wnF0x")) {
                     accountList.add(lorna);
                     peopleList.add(account_lorna_1);
@@ -93,6 +126,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     peopleList.add(account_fe_1);
                     peopleList.add(account_fe_2);
                     peopleList.add(account_fe_3);
+                    peopleList.add(account_fe_4);
+                    peopleList.add(account_fe_5);
+                    peopleList.add(account_fe_6);
+                    peopleList.add(account_fe_7);
+                    peopleList.add(account_fe_8);
+                    peopleList.add(account_fe_9);
+                    peopleList.add(account_fe_10);
                 }
             }
 
