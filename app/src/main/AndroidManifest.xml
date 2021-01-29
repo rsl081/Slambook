@@ -18,6 +18,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".AddEntry"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".EditEntry"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
@@ -27,6 +33,11 @@
             android:name=".HomeActivity"
             android:parentActivityName=".HomeActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Registration"
+            android:parentActivityName=".Login"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Login"

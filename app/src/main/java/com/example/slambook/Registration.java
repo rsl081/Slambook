@@ -4,9 +4,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -16,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -29,6 +35,10 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
+    //Camera
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private ImageView imageViewCapture;
 
     //Edit Text
     private EditText editUsername;
@@ -52,6 +62,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     //Button
     private Button btnRegister;
+    private Button btnLogin;
     private EditText editClickableBday;
 
     //CheckBox
@@ -94,6 +105,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
 
     DatePickerDialog dateDialog;
+
+    Accounts accounts = new Accounts("", R.drawable.woman);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +157,14 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
         //Button
         btnRegister = findViewById(R.id.id_registerButton);
+        btnLogin = findViewById(R.id.id_loginButton);
+        //Camera
+        imageViewCapture = findViewById(R.id.capture);
 
         //listener
+        imageViewCapture.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
         editClickableBday.setOnClickListener(this);
         checkHobbies[0].setOnClickListener(this);
         checkHobbies[1].setOnClickListener(this);
@@ -168,6 +186,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             case R.id.id_registerButton:
                 Validation();
                 break;
+            case R.id.id_loginButton:
+                OpenHomeActivity();
             case R.id.birthday:
                 datepickerdialog();
                 break;
@@ -188,7 +208,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 }else{
                     listHobbies.remove(selected);
                 }
-                break;
+            break;
+            case R.id.capture:
+                CaptureImage();
+            break;
         }
 
     }
@@ -363,6 +386,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
                 stringBuildHobby.delete(0, stringBuildHobby.length());
                 Toast.makeText(getApplicationContext(), "Registration Was Successful!", Toast.LENGTH_SHORT).show();
+                btnLogin.setEnabled(true);
+                btnLogin.setAlpha(1);
             }
         });
         error.show();
@@ -376,6 +401,38 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         error.setPositiveButton("Okay",null);
         error.show();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageViewCapture.setImageBitmap(photo);
+
+            accounts.setBitmapImageProfile(photo);
+        }
+    }
+    private void CaptureImage()
+    {
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+        }
+        else
+        {
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        }
+    }
+
+
+    private void OpenHomeActivity(){
+        accounts.setAccountName(username);
+        Intent homeInent = new Intent(Registration.this, HomeActivity.class);
+        homeInent.putExtra("new_regist_user", accounts);
+        startActivity(homeInent);
+    }
+
+
 
 }
 

@@ -1,136 +1,134 @@
 package com.example.slambook;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
-import org.w3c.dom.Text;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class PersonListAdapter extends ArrayAdapter<Person> {
+public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.ViewHolder> {
 
-    private static final String TAG = "PersonListAdapter";
-
+    private ArrayList<Person> persons;
     private Context mContext;
-    private int mResource;
-    private OnClickListener listener;
+    private OnClickListener listener1;
     private OnClickListener listener2;
+
+
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
 
 
     /**
      * Holds variables in a View
      */
-    private static class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView profilePic;
         TextView name;
         TextView remark;
         Button deleteBtn;
         Button editBtn;
+
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+            super(itemView);
+            this.profilePic = (ImageView) itemView.findViewById(R.id.profile_person);
+            this.name = (TextView) itemView.findViewById(R.id.indiviName);
+            this.remark = (TextView) itemView.findViewById(R.id.indiviRemark);
+            this.deleteBtn = (Button) itemView.findViewById(R.id.deleteBtn);
+            this.editBtn = (Button) itemView.findViewById(R.id.editBtn);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            this.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener1 != null){
+                        listener1.OnClickListener(position);
+                    }
+                }
+            });
+
+            this.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener2 != null){
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener2.OnClickListener(position);
+                        }
+                    }
+                }
+            });
+
+        }
     }
 
-    /**
-     * Default constructor for the PersonListAdapter
-     * @param context
-     * @param resource
-     * @param objects
-     */
-    public PersonListAdapter(Context context, int resource, ArrayList<Person> objects) {
-        super(context, resource, objects);
-        mContext = context;
-        mResource = resource;
+    public PersonListAdapter(Context context, ArrayList<Person> objects) {
+        this.mContext = context;
+        this.persons = objects;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //get the persons information
-        int profilePic = getItem(position).getProfilePic();
-        String name = getItem(position).getAccountName();
-        String remark = getItem(position).getRemark();
-        String birthday = getItem(position).getBirthday();
-        String gender = getItem(position).getGender();
-        String address = getItem(position).getAddress();
-        String contact = getItem(position).getContact();
-        String hobbies = getItem(position).getHobbies();
-        String goals = getItem(position).getGoals();
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.individual_entry_1, parent, false);
+        ViewHolder vh = new ViewHolder(v, onItemClickListener);
+        return vh;
+    }
 
-        //Create the person object with the information
-        Person person = new Person(profilePic,name,remark,birthday,gender,address,contact,hobbies, goals);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Person person = persons.get(position);
 
-        //create the view result for showing the animation
-        final View result;
-
-        //ViewHolder object
-        ViewHolder holder;
-
-
-        if(convertView == null){
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(mResource, parent, false);
-            holder= new ViewHolder();
-            holder.profilePic = (ImageView) convertView.findViewById(R.id.profile_person);
-            holder.name = (TextView) convertView.findViewById(R.id.indiviName);
-            holder.remark = (TextView) convertView.findViewById(R.id.indiviRemark);
-            holder.deleteBtn = (Button) convertView.findViewById(R.id.deleteBtn);
-            holder.editBtn = (Button) convertView.findViewById(R.id.editBtn);
-
-            result = convertView;
-
-            convertView.setTag(holder);
-        }
-        else{
-            holder = (ViewHolder) convertView.getTag();
-            result = convertView;
+        if (person.getBitmapImage() == null) {
+            holder.profilePic.setImageResource(person.getProfilePic());
+        } else {
+            holder.profilePic.setImageBitmap(person.getBitmapImage());
         }
 
-        holder.profilePic.setImageResource(person.getProfilePic());
         holder.name.setText(person.getAccountName());
         holder.remark.setText(person.getRemark());
 
-        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listener != null){
-                    listener.OnClickListener(position);
-                }
-            }
-        });
+    }
 
-        holder.editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listener2 != null){
-                    listener2.OnClickListener(position);
-                }
-            }
-        });
-
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return this.persons.size();
     }
 
 
     public interface OnClickListener {
-        public void OnClickListener(int position);
+        void OnClickListener(int position);
     }
 
-    public void setOnClickListener(OnClickListener listener) {
-        this.listener = listener;
+    public void setOnClickListener(OnClickListener listener1) {
+        this.listener1 = listener1;
     }
     public void setOnClickListener2(OnClickListener listener2) {
         this.listener2 = listener2;
     }
-
-
 
 }

@@ -2,116 +2,149 @@ package com.example.slambook;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class HomeActivity extends AppCompatActivity {
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager myLayoutManager;
+
+    private RecyclerView recyclerViewAccount;
+    private RecyclerView.LayoutManager myLayoutManagerAccount;
 
     public static final String POSITION = "com.example.slambook.POSITION";
     public static final String PEOPLE_LIST = "com.example.slambook.PEOPLE_LIST";
     //Add the Person objects to an ArrayList
     ArrayList<Person> peopleList = new ArrayList<>();
+
     PersonListAdapter personListAdapter;
     //Add the Accounts objects to an ArrayList
-    ArrayList<String> accountList = new ArrayList<>();
+    ArrayList<Accounts> accountList = new ArrayList<>();
+
     AccountListAdapter accountListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_list);
+
         Init();
     }
 
     private void Init(){
-        ListView myListView = (ListView) findViewById(R.id.listView);
-        ListView myListView1 = (ListView) findViewById(R.id.listView_username);
-
         Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-        String password = intent.getStringExtra("password");
-
         Bundle data = getIntent().getExtras();
-        String anna = intent.getStringExtra("anna");
-        Person account_anna_1 = (Person) data.getParcelable("anna_1");
+        if(intent != null || data != null){
 
-        String lorna = intent.getStringExtra("lorna");
-        Person account_lorna_1 = (Person) data.getParcelable("lorna_1");
-        Person account_lorna_2 = (Person) data.getParcelable("lorna_2");
+            Accounts new_regist_user = intent.getParcelableExtra("new_regist_user");
+            String username = intent.getStringExtra("username");
+            String password = intent.getStringExtra("password");
 
-        String fe = intent.getStringExtra("fe");
-        Person account_fe_1 = (Person) data.getParcelable("fe_1");
-        Person account_fe_2 = (Person) data.getParcelable("fe_2");
-        Person account_fe_3 = (Person) data.getParcelable("fe_3");
+            Accounts anna = intent.getParcelableExtra("anna");
+            Person account_anna_1 = (Person) data.getParcelable("anna_1");
 
+            Accounts lorna = intent.getParcelableExtra("lorna");
+            Person account_lorna_1 = (Person) data.getParcelable("lorna_1");
+            Person account_lorna_2 = (Person) data.getParcelable("lorna_2");
 
-        if(username.equals("Anna") && password.equals("123")){
-            accountList.add(anna);
-            peopleList.add(account_anna_1);
-        }else if(username.equals("Lorna") && password.equals("Th3Q41ckBr0wnF0x")){
-            accountList.add(lorna);
-            peopleList.add(account_lorna_1);
-            peopleList.add(account_lorna_2);
-        }else if(username.equals("_Fe_") && password.equals("p@zzW0rd")){
-            accountList.add(fe);
-            peopleList.add(account_fe_1);
-            peopleList.add(account_fe_2);
-            peopleList.add(account_fe_3);
+            Accounts fe = intent.getParcelableExtra("fe");
+            Person account_fe_1 = (Person) data.getParcelable("fe_1");
+            Person account_fe_2 = (Person) data.getParcelable("fe_2");
+            Person account_fe_3 = (Person) data.getParcelable("fe_3");
+
+            if(new_regist_user != null){
+                accountList.add(new_regist_user);
+            }else {
+                if (username.equals("Anna") && password.equals("123")) {
+                    accountList.add(anna);
+                    peopleList.add(account_anna_1);
+                } else if (username.equals("Lorna") && password.equals("Th3Q41ckBr0wnF0x")) {
+                    accountList.add(lorna);
+                    peopleList.add(account_lorna_1);
+                    peopleList.add(account_lorna_2);
+                } else if (username.equals("_Fe_") && password.equals("p@zzW0rd")) {
+                    accountList.add(fe);
+                    peopleList.add(account_fe_1);
+                    peopleList.add(account_fe_2);
+                    peopleList.add(account_fe_3);
+                }
+            }
+
+            recyclerView = findViewById(R.id.recycleView);
+            recyclerView.setHasFixedSize(true);
+            myLayoutManager = new LinearLayoutManager(this);
+            personListAdapter = new PersonListAdapter(this, peopleList);
+            recyclerView.setLayoutManager(myLayoutManager);
+            recyclerView.setAdapter(personListAdapter);
+            personListAdapter.setOnItemClickListener(new PersonListAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Intent intentToViewEntryAct = new Intent(HomeActivity.this, ViewEntry.class);
+                        intentToViewEntryAct.putExtra("ViewList", peopleList.get(position));
+                        startActivity(intentToViewEntryAct);
+                }
+            });
+
+            personListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
+                @Override
+                public void OnClickListener(int position) {
+                    DeleteList(position);
+                }
+            });
+
+            personListAdapter.setOnClickListener2(new PersonListAdapter.OnClickListener() {
+                @Override
+                public void OnClickListener(int position) {
+                    Intent intentToEditEntryAct = new Intent(HomeActivity.this, EditEntry.class);
+                    intentToEditEntryAct.putExtra(POSITION, position);
+                    intentToEditEntryAct.putExtra(PEOPLE_LIST, peopleList.get(position));
+                    startActivityForResult(intentToEditEntryAct, 1);
+                }
+            });
+
+            recyclerViewAccount = findViewById(R.id.recycleView_account);
+            recyclerViewAccount.setHasFixedSize(true);
+            myLayoutManagerAccount = new LinearLayoutManager(this);
+            accountListAdapter = new AccountListAdapter(this, accountList);
+            recyclerViewAccount.setLayoutManager(myLayoutManagerAccount);
+            recyclerViewAccount.setAdapter(accountListAdapter);
+            accountListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
+                @Override
+                public void OnClickListener(int position) {
+                    Logout();
+                }
+            });
         }
 
-        personListAdapter = new PersonListAdapter(this, R.layout.individual_entry_1, peopleList);
-        myListView.setAdapter(personListAdapter);
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intentToViewEntryAct = new Intent(HomeActivity.this, ViewEntry.class);
-                intentToViewEntryAct.putExtra("ViewList", peopleList.get(i));
-                startActivity(intentToViewEntryAct);
-                //putanganina mo hindi dito
-            }
-        });
+        Button addEntry = findViewById(R.id.btn_add_new_entry);
 
-        personListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
-            @Override
-            public void OnClickListener(int position) {
-                DeleteList(position);
-            }
-        });
-
-        personListAdapter.setOnClickListener2(new PersonListAdapter.OnClickListener() {
-            @Override
-            public void OnClickListener(int position) {
-                Intent intentToEditEntryAct = new Intent(HomeActivity.this, EditEntry.class);
-                intentToEditEntryAct.putExtra(POSITION, position);
-                intentToEditEntryAct.putExtra(PEOPLE_LIST, peopleList.get(position));
-                startActivityForResult(intentToEditEntryAct, 1);
-            }
-        });
-
-        accountListAdapter = new AccountListAdapter(this, R.layout.individual_user_2, accountList);
-        myListView1.setAdapter(accountListAdapter);
-
-        accountListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
-            @Override
-            public void OnClickListener(int position) {
-                Logout();
-            }
-        });
+        addEntry.setOnClickListener(this);
     }
 
     @Override
@@ -120,27 +153,20 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 int position = data.getIntExtra("update_list", 0);
-                Bitmap newProfilePic = (Bitmap) data.getParcelableExtra("my_photo");
-                String newName = data.getStringExtra("name");
-                String newRemark = data.getStringExtra("remark");
-                String newBday = data.getStringExtra("bday");
-                String newGender = data.getStringExtra("gender");
-                String newAddress = data.getStringExtra("address");
-                String newContact = data.getStringExtra("contact");
-                String newHobbies = data.getStringExtra("hobbies");
-                String newGoals = data.getStringExtra("goals");
+                //Bitmap newProfilePic = (Bitmap) data.getParcelableExtra("profile_pic");
+                Person edit_person = data.getParcelableExtra("edit_person");
 
-                peopleList.set(position,  new Person(newProfilePic, newName, newRemark, newBday,
-                        newGender, newAddress, newContact, newHobbies, newGoals));
+                peopleList.set(position, edit_person);
                 personListAdapter.notifyDataSetChanged();
-//                getIntent().removeExtra(newName);
-//                getIntent().removeExtra(newRemark);
-//                getIntent().removeExtra(newBday);
-//                getIntent().removeExtra(newGender);
-//                getIntent().removeExtra(newAddress);
-//                getIntent().removeExtra(newContact);
-//                getIntent().removeExtra(newHobbies);
-//                getIntent().removeExtra(newGoals);
+                //data.removeExtra(String.valueOf(edit_person));
+            }
+        }
+        if (requestCode == 2) {
+            if(resultCode == RESULT_OK) {
+                Person person = data.getParcelableExtra("new_person");
+                peopleList.add(0,person);
+                personListAdapter.notifyDataSetChanged();
+                //data.removeExtra(String.valueOf(person));
             }
         }
 
@@ -184,4 +210,19 @@ public class HomeActivity extends AppCompatActivity {
         bldg.show();
     }//end of Logout CURLY BRACES
 
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_add_new_entry:
+                AddNewEntry();
+            break;
+        }
+    }
+
+    public void AddNewEntry(){
+        Intent addEntryIntent = new Intent(HomeActivity.this, AddEntry.class);
+        startActivityForResult(addEntryIntent, 2);
+    }
 }

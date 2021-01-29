@@ -3,44 +3,32 @@ package com.example.slambook;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Base64;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-
     private EditText usernameEdit;
     private EditText passwordEdit;
     private Button loginBtn;
     private Button registerBtn;
     private Toast popUp;
     private String name, pass;
-    Accounts[] accounts = new Accounts[3];
+    Accounts[] accountsArray = new Accounts[3];
     private ArrayList<Accounts> accountsArrayList = new ArrayList<>();
     Intent myIntent;
+    Accounts accounts = new Accounts("", R.drawable.woman);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +38,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void init() {
+
         //Anna
-    accounts[0] = new Accounts(
+    accountsArray[0] = new Accounts(
     "Anna",
     "123",
 //                "13579abcdeA",
     "Anna Lisa", new Person[]{
             new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
             "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
-    accountsArrayList.add(accounts[0]);
+    accountsArrayList.add(accountsArray[0]);
+
     //Lorna
-    accounts[1] = new Accounts(
+    accountsArray[1] = new Accounts(
             "Lorna",
             "Th3Q41ckBr0wnF0x",
             "Lorna Dee", new Person[]{
@@ -68,10 +58,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
             new Person(R.drawable.woman, "Russel Pogi", "Handsome", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
-    accountsArrayList.add(accounts[1]);
+    accountsArrayList.add(accountsArray[1]);
 
     //_Fe_
-    accounts[2] = new Accounts(
+    accountsArray[2] = new Accounts(
             "_Fe_",
             "p@zzW0rd",
             "Fe Rari", new Person[]{
@@ -81,7 +71,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars"),
             new Person(R.drawable.woman, "Gg Kayo Pogi", "Handsome", "March 12 2020",
                     "Female", "Baliwag Bulacan", "09323216432", "Eating", "Cars")});
-    accountsArrayList.add(accounts[2]);
+    accountsArrayList.add(accountsArray[2]);
         //Button
         loginBtn = findViewById(R.id.id_LoginButton);
         registerBtn = findViewById(R.id.id_RegisterButton);
@@ -158,6 +148,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(Login.this, "Going to Registration Form:", Toast.LENGTH_LONG).show();
+                Intent loginIntent = new Intent(Login.this, Registration.class);
+                startActivity(loginIntent);
             }
         });
         bldg.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -179,25 +171,35 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }//end of CredentialVerification CURLY BRACES
 
 
-
-
-
     public void Intent(){
 
         myIntent.putExtra("username", name);
         myIntent.putExtra("password", pass);
 
-        myIntent.putExtra("anna", accounts[0].getAccountName());
-        myIntent.putExtra("anna_1", accounts[0].person[0]);
+        if(name.equals("Anna") && pass.equals("123")){
+            accounts.setAccountName(accountsArray[0].getAccountName());
+            myIntent.putExtra("anna", accounts);
+            myIntent.putExtra("anna_1", accountsArray[0].person[0]);
+        }else if(name.equals("Lorna") && pass.equals("Th3Q41ckBr0wnF0x")){
+            accounts.setAccountName(accountsArray[1].getAccountName());
+            myIntent.putExtra("lorna", accounts);
+            myIntent.putExtra("lorna_1", accountsArray[1].person[0]);
+            myIntent.putExtra("lorna_2", accountsArray[1].person[1]);
+        }else if(name.equals("_Fe_") && pass.equals("p@zzW0rd")){
+            accounts.setAccountName(accountsArray[2].getAccountName());
+            myIntent.putExtra("fe", accounts);
+            myIntent.putExtra("fe_1", accountsArray[2].person[0]);
+            myIntent.putExtra("fe_2", accountsArray[2].person[1]);
+            myIntent.putExtra("fe_3", accountsArray[2].person[2]);
+        }
 
-        myIntent.putExtra("lorna", accounts[1].getAccountName());
-        myIntent.putExtra("lorna_1", accounts[1].person[0]);
-        myIntent.putExtra("lorna_2", accounts[1].person[1]);
 
-        myIntent.putExtra("fe", accounts[2].getAccountName());
-        myIntent.putExtra("fe_1", accounts[2].person[0]);
-        myIntent.putExtra("fe_2", accounts[2].person[1]);
-        myIntent.putExtra("fe_3", accounts[2].person[2]);
+
+
+
+
+
     }
+
 
 }

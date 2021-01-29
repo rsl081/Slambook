@@ -11,82 +11,81 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AccountListAdapter extends ArrayAdapter<String> {
+public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.ViewHolder> {
 
-    private static final String TAG = "AccountListAdapter";
-
+    private ArrayList<Accounts> accounts;
     private Context mContext;
-    private int mResource;
     private PersonListAdapter.OnClickListener listener;
 
     /**
      * Holds variables in a View
      */
-    private static class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageViewPic;
         TextView accountName;
         Button deleteBtn;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.imageViewPic = (ImageView) itemView.findViewById(R.id.user_profile_pic);
+            this.accountName = (TextView) itemView.findViewById(R.id.indi_account_name);
+            this.deleteBtn = (Button) itemView.findViewById(R.id.logout_user);
+            this.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null){
+                        listener.OnClickListener(position);
+                    }
+                }
+            });
+        }
     }
 
-    /**
-     * Default constructor for the AccountListAdapter
-     * @param context
-     * @param resource
-     * @param objects
-     */
-    public AccountListAdapter(Context context, int resource, ArrayList<String> objects) {
-        super(context, resource, objects);
-        mContext = context;
-        mResource = resource;
+    public AccountListAdapter(Context context, ArrayList<Accounts> objects) {
+        this.mContext = context;
+        this.accounts = objects;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //get the account information
-        String username = getItem(position);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.individual_user_2, parent, false);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+    }
 
-        //ViewHolder object
-        ViewHolder holder;
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Accounts accounts = this.accounts.get(position);
 
-
-        if(convertView == null){
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(mResource, parent, false);
-            holder= new ViewHolder();
-            holder.accountName = (TextView) convertView.findViewById(R.id.indi_account_name);
-            holder.deleteBtn = (Button) convertView.findViewById(R.id.logout_user);
-
-            convertView.setTag(holder);
-        }
-        else{
-            holder = (ViewHolder) convertView.getTag();
+        if (accounts.getBitmapImageProfile() == null) {
+            holder.imageViewPic.setImageResource(accounts.getIntImageProfile());
+        } else {
+            holder.imageViewPic.setImageBitmap(accounts.getBitmapImageProfile());
         }
 
-        holder.accountName.setText(username);
-        //Listener
-        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listener != null){
-                    listener.OnClickListener(position);
-                }
-            }
-        });
+        holder.accountName.setText(accounts.getAccountName());
+    }
 
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return this.accounts.size();
     }
 
     public void setOnClickListener(PersonListAdapter.OnClickListener listener) {
         this.listener = listener;
     }
-
 
 }

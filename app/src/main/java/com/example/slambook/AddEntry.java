@@ -7,32 +7,22 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.ByteArrayOutputStream;
-
-public class EditEntry extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
+public class AddEntry extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+
     private ImageView imageViewPic;
     private EditText editTextName;
     private EditText editTextRemark;
@@ -44,9 +34,9 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
     private EditText editTextContact;
     private EditText editTextHobbies;
     private EditText editTextGoals;
-    private Button updateBtn;
+    private Button addBtn;
     private Button cancelBtn;
-    private String gender = "";
+    private String gender = "female";
     private String getGender = "";
 
     private String name;
@@ -57,36 +47,21 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
     private String hobbies;
     private String goals;
 
-    Person person;
+    Person person = new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
+            "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars");
 
     int positionOfPeopleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_entry_list);
+        setContentView(R.layout.add_entry);
 
         Init();
     }
 
     private void Init(){
-        Intent intent = getIntent();
-        positionOfPeopleList = intent.getIntExtra(HomeActivity.POSITION, 0);
-
-        person = intent.getParcelableExtra(HomeActivity.PEOPLE_LIST);
-
-        Bitmap newProfile = person.getBitmapImage();
-        int profilePic = person.getProfilePic();
-        String name = person.getAccountName();
-        String remark = person.getRemark();
-        String birthday = person.getBirthday();
-        gender = person.getGender().toLowerCase();
-        String address = person.getAddress();
-        String contact = person.getContact();
-        String hobbies = person.getHobbies();
-        String goals = person.getGoals();
-
-        imageViewPic = findViewById(R.id.capture);
+        imageViewPic = findViewById(R.id.add_capture);
         editTextName = findViewById(R.id.edt_name);
         editTextRemark = findViewById(R.id.remark);
         editTextBday = findViewById(R.id.birthday);
@@ -97,43 +72,28 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
         editTextContact = findViewById(R.id.contactnum);
         editTextHobbies = findViewById(R.id.hobbies);
         editTextGoals = findViewById(R.id.goals);
-        updateBtn = findViewById(R.id.btn_editEntry);
+        addBtn = findViewById(R.id.btn_addEntry);
         cancelBtn = findViewById(R.id.btn_cancel);
 
-
-        if(person.getBitmapImage() != null){
-            imageViewPic.setImageBitmap(newProfile);
-        }else{
-            imageViewPic.setImageResource(profilePic);
-        }
-
-        editTextName.setText(name);
-        editTextRemark.setText(remark);
-        if(gender.equals("female")){
+        if(radioFemale.isChecked()){
             char capFirstLetter = gender.toUpperCase().charAt(0);
             radioFemale.setText(capFirstLetter + gender.substring(1));
             radioFemale.setChecked(true);
             getGender = radioFemale.getText().toString();
-        }else if(gender.equals("male")){
+        }else if(radioMale.isChecked()){
             char capFirstLetter = gender.toUpperCase().charAt(0);
             radioMale.setText(capFirstLetter + gender.substring(1));
             radioMale.setChecked(true);
             getGender = radioMale.getText().toString();
-        }else{
+        }else if(radioOtherGender.isChecked()){
             char capFirstLetter = gender.toUpperCase().charAt(0);
             radioOtherGender.setText(capFirstLetter + gender.substring(1));
             radioOtherGender.setChecked(true);
             getGender = radioOtherGender.getText().toString();
         }
 
-        editTextBday.setText(birthday);
-        editTextAddress.setText(address);
-        editTextContact.setText(contact);
-        editTextHobbies.setText(hobbies);
-        editTextGoals.setText(goals);
-
         imageViewPic.setOnClickListener(this);
-        updateBtn.setOnClickListener(this);
+        addBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
 
         radioFemale.setOnClickListener(this);
@@ -161,9 +121,9 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
 
     boolean IsError(){
         if( name.equals("") || remark.equals("") ||
-            birthday.equals("") || address.equals("") ||
-            contact.equals("") || gender.equals("") ||
-            hobbies.isEmpty() || goals.equals("")){
+                birthday.equals("") || address.equals("") ||
+                contact.equals("") || gender.equals("") ||
+                hobbies.isEmpty() || goals.equals("")){
             return true;
         }else{
             return false;
@@ -174,10 +134,10 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
 
         switch (view.getId()){
-            case R.id.btn_editEntry:
-                    Validation();
+            case R.id.btn_addEntry:
+                Validation();
                 break;
-            case R.id.capture:
+            case R.id.add_capture:
                 if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                 {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
@@ -187,19 +147,19 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
-            break;
+                break;
             case R.id.rd_female:
                 getGender = radioFemale.getText().toString();
-            break;
+                break;
             case R.id.rd_male:
                 getGender = radioMale.getText().toString();
-            break;
+                break;
             case R.id.rd_others:
                 openDialog();
-            break;
+                break;
             case R.id.btn_cancel:
                 finish();
-            break;
+                break;
         }
     }//End of OnClick
 
@@ -245,7 +205,6 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
     }
 
 
-
     public void UpdateList(){
         Bitmap getProfilePic = person.getBitmapImage();
         String getName = editTextName.getText().toString();
@@ -267,7 +226,7 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
         person.setGoals(getGoals);
 
         Intent intentUpdateList = new Intent();
-        intentUpdateList.putExtra("edit_person", person);
+        intentUpdateList.putExtra("new_person", person);
         setResult(RESULT_OK, intentUpdateList);
         finish();
     }
@@ -285,7 +244,7 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
 
 
         AlertDialog.Builder error = new AlertDialog.Builder(this);
-        error.setTitle("Error/s!");
+        error.setTitle("Missing In Action!");
         error.setMessage(   (name.matches("") ? str_name : str_name.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (remark.matches("") ? str_remark : str_remark.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (birthday.matches("") ? str_birthday : str_birthday.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +

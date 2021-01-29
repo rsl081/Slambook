@@ -30,17 +30,6 @@ public class ViewEntry extends AppCompatActivity {
         Intent intent = getIntent();
 
         Person person = intent.getParcelableExtra("ViewList");
-
-        int profilePic = person.getProfilePic();
-        String name = person.getAccountName();
-        String remark = person.getRemark();
-        String birthday = person.getBirthday();
-        String gender = person.getGender();
-        String address = person.getAddress();
-        String contact = person.getContact();
-        String hobbies = person.getHobbies();
-        String goals = person.getGoals();
-
         ImageView profilePicImageView = findViewById(R.id.profile_pic);
         TextView textViewName = findViewById(R.id.txt_name);
         TextView textViewRemark = findViewById(R.id.txt_remark);
@@ -51,15 +40,19 @@ public class ViewEntry extends AppCompatActivity {
         TextView textViewHobbies = findViewById(R.id.txt_hobbies);
         TextView textViewGoals = findViewById(R.id.txt_goals);
 
-        profilePicImageView.setImageResource(profilePic);
-        textViewName.setText(name);
-        textViewRemark.setText(remark);
-        textViewBday.setText(birthday);
-        textViewGender.setText(gender);
-        textViewAddress.setText(address);
-        textViewContact.setText(contact);
-        textViewHobbies.setText(hobbies);
-        textViewGoals.setText(goals);
+        if (person.getBitmapImage()!=null) {
+            profilePicImageView.setImageBitmap(person.getBitmapImage());
+        } else {
+            profilePicImageView.setImageResource(person.getProfilePic());
+        }
+        textViewName.setText(person.getAccountName());
+        textViewRemark.setText(person.getRemark());
+        textViewBday.setText(person.getBirthday());
+        textViewGender.setText(person.getGender());
+        textViewAddress.setText(person.getAddress());
+        textViewContact.setText(person.getContact());
+        textViewHobbies.setText(person.getHobbies());
+        textViewGoals.setText(person.getGoals());
 
         Button btnUpdate = findViewById(R.id.btn_addEntry);
 
