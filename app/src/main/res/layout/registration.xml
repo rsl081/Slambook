@@ -722,22 +722,21 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:orientation="horizontal">
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/id_registerButton"
-                                android:layout_gravity="center"
                                 android:layout_width="150dp"
                                 android:layout_height="48dp"
-                                android:layout_margin="30dp"
+                                android:layout_margin="10dp"
                                 android:background="@drawable/register_button" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/id_loginButton"
-                                android:layout_gravity="center"
                                 android:layout_width="150dp"
                                 android:layout_height="48dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_margin="10dp"
                                 android:alpha=".5"
                                 android:enabled="false"
                                 android:shadowColor="@color/black"
