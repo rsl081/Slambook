@@ -108,11 +108,14 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     Accounts accounts = new Accounts("", R.drawable.woman);
 
+    //SQLite
+    SQLiteDBHelper dbconn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
-
+        dbconn = new SQLiteDBHelper(this);
         initialization();
     }
 
