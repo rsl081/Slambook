@@ -30,10 +30,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Intent myIntent;
     Accounts accounts = new Accounts("", R.drawable.woman);
 
+    //SQLite
+    SQLiteDBHelper dbconn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        dbconn = new SQLiteDBHelper(this);
         init();
     }
 
@@ -194,7 +199,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         bldg.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(Login.this, "Going to Registration Form:", Toast.LENGTH_LONG).show();
+                Toast.makeText(Login.this, "Going to Registration Form:", Toast.LENGTH_SHORT).show();
                 Intent loginIntent = new Intent(Login.this, Registration.class);
                 startActivity(loginIntent);
             }
