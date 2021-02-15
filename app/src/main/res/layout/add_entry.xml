@@ -1,209 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="4"
     android:background="@drawable/bg_sa_adnew_entry"
     android:orientation="vertical"
-    android:layout_weight="4"
     tools:context=".HomeActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+
 
     <ImageView
         android:id="@+id/add_capture"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_width="140dp"
+        android:layout_height="117dp"
         android:clickable="true"
         android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.074"
         app:srcCompat="@drawable/capture" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+
+
 
     <EditText
         android:id="@+id/edt_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
+        android:backgroundTint="#ffffff"
         android:ems="10"
         android:hint="Name*"
-        android:backgroundTint="#ffffff"
-        android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"
-        android:textStyle="italic" />
+        android:textColorHint="#FFFFFF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.236" />
 
     <EditText
         android:id="@+id/remark"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:hint="Remark*"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        android:textStyle="italic" />
-    <EditText
-        android:id="@+id/birthday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:backgroundTint="#FFFFFF"
-        android:ems="10"
-        android:hint="Birthday*"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/txtview_gender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:text="Gender*"
-        android:textColor="#FFFFFF"
-        android:textSize="18dp"
-        android:textStyle="italic"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rd_male"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:buttonTint="#FFFFFF"
-            android:text="Male"
-            android:textColor="#FFFFFF"
-            android:textStyle="italic" />
-
-        <RadioButton
-            android:id="@+id/rd_female"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:buttonTint="#FFFFFF"
-            android:text="Female"
-            android:textColor="#FFFFFF"
-            android:textStyle="italic" />
-
-        <RadioButton
-            android:id="@+id/rd_others"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:buttonTint="#FFFFFF"
-            android:text="Others"
-            android:textColor="#FFFFFF"
-            android:textStyle="italic" />
-    </RadioGroup>
-
-    <EditText
-        android:id="@+id/address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:backgroundTint="#FFFFFF"
-        android:ems="10"
-        android:hint="Address*"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.301" />
 
     <EditText
         android:id="@+id/contactnum"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:hint="Contact Number*"
         android:inputType="phone"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.602" />
+
+    <RadioButton
+        android:id="@+id/rd_female"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="#FFFFFF"
+        android:text="Female"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.468" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="155dp"
+        android:layout_height="51dp"
+        android:background="@drawable/cancelbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_addEntry"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.835" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_addEntry"
+        android:layout_width="166dp"
+        android:layout_height="53dp"
+        android:background="@drawable/addentrybutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.844"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.834" />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
+        android:hint="Address*"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.536" />
+
+    <RadioButton
+        android:id="@+id/rd_male"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="#FFFFFF"
+        android:text="Male"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.468" />
 
     <EditText
         android:id="@+id/hobbies"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:hint="Hobbies*"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.667" />
 
     <EditText
         android:id="@+id/goals"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:hint="Goals*"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.733" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+    <TextView
+        android:id="@+id/txtview_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender*"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.298"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="160dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:background="@drawable/cancelbutton" />
+    <RadioButton
+        android:id="@+id/rd_others"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="#FFFFFF"
+        android:text="Others"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.721"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.468" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_addEntry"
-                    android:layout_width="160dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/addentrybutton" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    <EditText
+        android:id="@+id/birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
+        android:hint="Birthday*"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.365" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
