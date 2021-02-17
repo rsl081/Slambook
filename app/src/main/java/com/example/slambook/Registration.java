@@ -1,6 +1,5 @@
 package com.example.slambook;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -11,11 +10,12 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.os.Build;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Spanned;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,19 +26,20 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.slambook.DialogOthersGender;
-import com.example.slambook.R;
-import com.example.slambook.SpinnersActivity;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
     //Camera
-    private static final int CAMERA_REQUEST = 1888;
+    private static final int CAMERA_REQUEST = 0;
+    private static final int GALLERY_REQUEST = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private ImageView imageViewCapture;
+    private byte[] selectedImage;
 
     //Edit Text
     private EditText editUsername;
@@ -103,19 +104,26 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private String secQuesText2;
     private String secQuesText3;
 
-
     DatePickerDialog dateDialog;
 
     Accounts accounts = new Accounts("", R.drawable.woman);
 
     //SQLite
     SQLiteDBHelper dbconn;
+    boolean checkInsertOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
         dbconn = new SQLiteDBHelper(this);
+        try {
+            Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/woman");
+            InputStream stream = getContentResolver().openInputStream(uri);
+            selectedImage = getBytes(stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         initialization();
     }
 
@@ -188,6 +196,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.id_registerButton:
                 Validation();
+//                ShowSuccessDialog();
                 break;
             case R.id.id_loginButton:
                 OpenHomeActivity();
@@ -303,7 +312,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         if(!password.equals(confirmPassword)){
             ShowPasswordDialog();
         }else if(IsError()){
-            ShowErrorDialog();
+             ShowErrorDialog();
             //listHobbies.clear();
         }
         else{
@@ -312,7 +321,14 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 stringBuildHobby.append(s).toString();
                 stringBuildHobby.append(" ");
             }
-            ShowSuccessDialog();
+            if(!checkInsertOnce)
+            {
+                InsertNewUserDb(selectedImage,username,password,email,
+                        bday,fullName,gender,address,contact,stringBuildHobby,
+                        securityQ1,securityQ2,securityQ3);
+                checkInsertOnce = true;
+            }
+             ShowSuccessDialog();
         }
     }// end of ValidationMethod
 
@@ -370,9 +386,44 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
 
     public void ShowSuccessDialog(){
+//        Cursor result = dbconn.SelectAllUser();
+//        if(result.getCount()==0){
+//            // ShowErrorDialog();
+//            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
+//        }else{
+//            StringBuffer stringBuffer = new StringBuffer();
+//            while(result.moveToNext()){
+//                stringBuffer.append("Username: \n" + result.getString(2) + "\n" +
+//                        "\nPassword: \n" + result.getString(3) + "\n" +
+//                        "\nEmailAddress: \n" + result.getString(4) + "\n" +
+//                        "\nBirthday: \n" + result.getString(5) + "\n" +
+//                        (fullName.matches("") ? "\nFullName:*\n" : "\nFullName: \n" +result.getString(6)) + "\n" +
+//                        "\nGender: \n" + result.getString(7) + "\n" +
+//                        "\nAddress: \n" + result.getString(8) + "\n" +
+//                        "\nContact: \n" + result.getString(9) + "\n" +
+//                        "\nHobby/s: \n" + result.getString(10) + "\n" +
+//                        "\n"+secQuesText1+ ": \n" + result.getString(11) + "\n" +
+//                        "\n"+secQuesText1+ ": \n" + result.getString(12) + "\n" +
+//                        "\n"+secQuesText1+ ": \n" + result.getString(13) + "\n");
+//            }
+//            AlertDialog.Builder error = new AlertDialog.Builder(this);
+//            error.setTitle("Success!");
+//            error.setMessage(stringBuffer);
+//            error.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    // stringBuildHobby.delete(0, stringBuildHobby.length());
+//                    Toast.makeText(getApplicationContext(), "Registration Was Successful!", Toast.LENGTH_SHORT).show();
+//                    // btnLogin.setEnabled(true);
+//                    // btnLogin.setAlpha(1);
+//                }
+//            });
+//            error.show();
+//        }
+//==========================================================================================
         AlertDialog.Builder error = new AlertDialog.Builder(this);
         error.setTitle("Success!");
-        error.setMessage(  "Username: \n" + username + "\n" +
+        error.setMessage("Username: \n" + username + "\n" +
                 "\nPassword: \n" + password + "\n" +
                 "\nEmailAddress: \n" + email + "\n" +
                 "\nBirthday: \n" + bday + "\n" +
@@ -407,13 +458,55 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageViewCapture.setImageBitmap(photo);
-
-            accounts.setBitmapImageProfile(photo);
+        switch(requestCode) {
+            case 0:
+                if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    selectedImage = stream.toByteArray();
+                    imageViewCapture.setImageBitmap(photo);
+                    accounts.setBitmapImageProfile(photo);
+                }
+                break;
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Uri uri = data.getData();
+                        InputStream iStream =   getContentResolver().openInputStream(uri);
+                        selectedImage = getBytes(iStream);
+                        imageViewCapture.setImageURI(uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+//            default:
+//                try {
+//                    Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/woman");
+//                    InputStream stream = getContentResolver().openInputStream(uri);
+//                    selectedImage = getBytes(stream);
+//                    imageViewCapture.setImageURI(uri);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
         }
+    }// End of ActivityResult Curly Braces
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
+
+
     private void CaptureImage()
     {
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
@@ -422,20 +515,52 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         }
         else
         {
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            DialogForImages();
         }
     }
 
+    private void DialogForImages()
+    {
+        String[] items = {"Take Photo", "Choose from gallery", "Cancel"};
 
-    private void OpenHomeActivity(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Photo");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(items[which].equals("Take Photo")){
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                }else if(items[which].equals("Choose from gallery")){
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , GALLERY_REQUEST);
+                }else{
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    private void OpenHomeActivity()
+    {
         accounts.setAccountName(username);
         Intent homeInent = new Intent(Registration.this, HomeActivity.class);
         homeInent.putExtra("new_regist_user", accounts);
         startActivity(homeInent);
     }
 
-
+    private void InsertNewUserDb(byte[] profilePic,String username, String password, String email,
+                                 String bday, String fullname, String gender,
+                                 String address, String contact, StringBuilder hobbies,
+                                 String seques1,String seques2,String seques3)
+    {
+        dbconn.InsertUser(profilePic,username,password,email,bday,fullname,
+                            gender,address,contact,hobbies,
+                            seques1,seques2,seques3);
+    }
 
 }
 

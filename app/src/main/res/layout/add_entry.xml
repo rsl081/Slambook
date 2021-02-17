@@ -74,19 +74,19 @@
         android:textColorHint="#FFFFFF"
         android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/txtview_gender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:text="Gender*"
-        android:textColor="#FFFFFF"
-        android:textSize="18dp"
-        android:textStyle="italic"/>
+            <TextView
+                android:id="@+id/txtview_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:text="Gender*"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textStyle="italic" />
 
-    <RadioGroup
+            <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

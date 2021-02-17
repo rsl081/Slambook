@@ -1,10 +1,13 @@
 package com.example.slambook;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Accounts implements Parcelable {
+
+    private Uri uriImageProfile;
     private Bitmap bitmapImageProfile;
     private int intImageProfile;
     private String username;
@@ -29,6 +32,11 @@ public class Accounts implements Parcelable {
         this.bitmapImageProfile = profilePic;
     }
 
+    public Accounts(String accountName, Uri profilePic){
+        this.accountName = accountName;
+        this.uriImageProfile = profilePic;
+    }
+
 
     public void setBitmapImageProfile(Bitmap bitmapImageProfile) { this.bitmapImageProfile = bitmapImageProfile;}
     public void setIntImageProfile(int intImageProfile) {
@@ -38,8 +46,8 @@ public class Accounts implements Parcelable {
     public void setPassword(String password){ this.password = password;}
     public void setAccountName(String accountName){ this.accountName = accountName;}
 
+    public Uri getUriImageProfile() { return getUriImageProfile(); }
     public Bitmap getBitmapImageProfile() { return bitmapImageProfile; }
-
     public int getIntImageProfile() {
         return intImageProfile;
     }
@@ -54,6 +62,7 @@ public class Accounts implements Parcelable {
     }
 
     protected Accounts(Parcel in) {
+        this.uriImageProfile = (Uri) in.readValue(Uri.class.getClassLoader());
         this.bitmapImageProfile = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
         this.intImageProfile = in.readInt();
         this.username = in.readString();
@@ -68,6 +77,7 @@ public class Accounts implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(uriImageProfile);
         dest.writeValue(bitmapImageProfile);
         dest.writeInt(intImageProfile);
         dest.writeString(username);

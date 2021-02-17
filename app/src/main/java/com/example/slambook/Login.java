@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -166,8 +168,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             if (CredentialVerification()) {
                 CustomToast();
                 myIntent = new Intent(this, HomeActivity.class);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 Intent();
-                this.startActivity(myIntent);
+                startActivity(myIntent);
+                finish();
+//                Intent();
+//                this.startActivity(myIntent);
             } else {
                 AlertDialag();
             }
@@ -188,7 +194,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         AlertDialog.Builder bldg = new AlertDialog.Builder(this);
         bldg.setTitle("Credential does not match");
         bldg.setMessage("Username or Password is Incorrect!");
-        bldg.setPositiveButton("Okay!", null);
+        bldg.setPositiveButton("Okay!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                usernameEdit.setText("");
+                passwordEdit.setText("");
+            }
+        });
         bldg.show();
     }//end of AlertDialag CURLY BRACES
 
@@ -199,7 +211,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         bldg.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(Login.this, "Going to Registration Form:", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, "Going to Registration Form:", Toast.LENGTH_LONG).show();
                 Intent loginIntent = new Intent(Login.this, Registration.class);
                 startActivity(loginIntent);
             }
@@ -214,11 +226,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }//end of showRegistration CURLY BRACES
 
     boolean CredentialVerification() {
-        for(int i = 0; i < accountsArrayList.size(); i++){
-            if (accountsArrayList.get(i).getUsername().equals(name) && accountsArrayList.get(i).getPassword().equals(pass)) {
-                return true;
+        Cursor result = dbconn.SelectAllUser();
+        if(result.getCount()==0){
+            Toast.makeText(Login.this, "No Data!", Toast.LENGTH_LONG).show();
+        }else{
+            while(result.moveToNext())
+            {
+                if(result.getString(2).equals(name) && result.getString(3).equals(pass)){
+                    return true;
+                }
             }
         }
+//        for(int i = 0; i < accountsArrayList.size(); i++){
+//            if (accountsArrayList.get(i).getUsername().equals(name) && accountsArrayList.get(i).getPassword().equals(pass)) {
+//                return true;
+//            }
+//        }
         return false;
     }//end of CredentialVerification CURLY BRACES
 
