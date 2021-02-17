@@ -3,6 +3,7 @@ package com.example.slambook;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -28,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 public class EditEntry extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
 
@@ -57,6 +60,7 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
     private String hobbies;
     private String goals;
 
+    DatePickerDialog dateDialog;
     Person person;
 
     int positionOfPeopleList;
@@ -141,6 +145,26 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
         radioOtherGender.setOnClickListener(this);
     }//End of Init
 
+    public void datepickerdialog(){
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker v, int year, int month, int dayOfMonth) {
+                editTextBday.setText(month+1+"/"+dayOfMonth+"/"+year);
+            }
+        }, year, month,day);
+        editTextBday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateDialog.show();
+            }
+        });
+    }
+
     public void Validation(){
 
         name = editTextName.getText().toString();
@@ -188,6 +212,9 @@ public class EditEntry extends AppCompatActivity implements View.OnClickListener
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
             break;
+            case R.id.birthday:
+                datepickerdialog();
+                break;
             case R.id.rd_female:
                 getGender = radioFemale.getText().toString();
             break;
