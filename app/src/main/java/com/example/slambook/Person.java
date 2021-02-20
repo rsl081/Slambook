@@ -8,8 +8,14 @@ import android.os.Parcelable;
 import android.widget.ImageView;
 
 public class Person implements Parcelable {
+
+    private long id;
+    private byte[] byteProfilePic;
     private int profilePic;
     private Bitmap bitmapImage;
+    private String fn;
+    private String mn;
+    private String ln;
     private String name;
     private String remark;
     private String birthday;
@@ -18,10 +24,17 @@ public class Person implements Parcelable {
     private String contact;
     private String hobbies;
     private String goals;
+    private Accounts accounts;
 
-    public Person(int profilePic, String name, String remark, String birthday, String gender, String address, String contact, String hobbies, String goals) {
-        this.profilePic = profilePic;
-        this.name = name;
+    public Person() {}
+
+    public Person(byte[] profilePic, String fn, String mn, String ln, String remark, String birthday,
+                  String gender, String address, String contact, String hobbies,
+                  String goals) {
+        this.byteProfilePic = profilePic;
+        this.fn = fn;
+        this.mn = mn;
+        this.ln = ln;
         this.remark = remark;
         this.birthday = birthday;
         this.gender = gender;
@@ -31,35 +44,49 @@ public class Person implements Parcelable {
         this.goals = goals;
     }
 
-    public Person(Bitmap bitmapImage, String name, String remark, String birthday, String gender, String address, String contact, String hobbies, String goals) {
-        this.bitmapImage = bitmapImage;
-        this.name = name;
-        this.remark = remark;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.address = address;
-        this.contact = contact;
-        this.hobbies = hobbies;
-        this.goals = goals;
+//    public Person(int profilePic, String name, String remark, String birthday, String gender, String address, String contact, String hobbies, String goals) {
+//        this.profilePic = profilePic;
+//        this.name = name;
+//        this.remark = remark;
+//        this.birthday = birthday;
+//        this.gender = gender;
+//        this.address = address;
+//        this.contact = contact;
+//        this.hobbies = hobbies;
+//        this.goals = goals;
+//    }
+
+//    public Person(Bitmap bitmapImage, String name, String remark, String birthday, String gender, String address, String contact, String hobbies, String goals) {
+//        this.bitmapImage = bitmapImage;
+//        this.name = name;
+//        this.remark = remark;
+//        this.birthday = birthday;
+//        this.gender = gender;
+//        this.address = address;
+//        this.contact = contact;
+//        this.hobbies = hobbies;
+//        this.goals = goals;
+//    }
+
+    //=======================SETTERSSSSSSSSSSS
+    public void setId(long id) {
+        this.id = id;
     }
 
-    // Parcelable
-    public Person(Parcel in){
-        this.profilePic = in.readInt();
-        this.bitmapImage = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
+    public void setByteProfilePic(byte[] byteProfilePic) {
+        this.byteProfilePic = byteProfilePic;
+    }
 
-        String[] data = new String[8];
+    public void setFn(String fn) {
+        this.fn = fn;
+    }
 
-        in.readStringArray(data);
-        // the order needs to be the same as in writeToParcel() method
-        this.name = data[0];
-        this.remark = data[1];
-        this.birthday = data[2];
-        this.gender = data[3];
-        this.address = data[4];
-        this.contact = data[5];
-        this.hobbies = data[6];
-        this.goals = data[7];
+    public void setMn(String mn) {
+        this.mn = mn;
+    }
+
+    public void setLn(String ln) {
+        this.ln = ln;
     }
 
     public void setBitmapImage(Bitmap bitmapImage) { this.bitmapImage = bitmapImage; }
@@ -95,6 +122,28 @@ public class Person implements Parcelable {
     }
 
     public void setGoals(String goals) { this.goals = goals; }
+
+    public void setAccounts(Accounts accounts) { this.accounts = accounts; }
+
+    //=======================GETTERSSSSSSSSSS
+    public long getId() {
+        return id;
+    }
+    public byte[] getByteProfilePic() {
+        return byteProfilePic;
+    }
+
+    public String getFn() {
+        return fn;
+    }
+
+    public String getMn() {
+        return mn;
+    }
+
+    public String getLn() {
+        return ln;
+    }
 
     public Bitmap getBitmapImage() { return bitmapImage; }
 
@@ -132,6 +181,25 @@ public class Person implements Parcelable {
 
     public String getGoals() { return goals; }
 
+    public Accounts getAccounts() { return accounts; }
+
+    // Parcelable
+    public Person(Parcel in){
+//        this.profilePic = in.readInt();
+//        this.bitmapImage = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
+        this.id = in.readLong();
+        this.byteProfilePic = in.createByteArray();
+        this.fn = in.readString();
+        this.mn = in.readString();
+        this.ln = in.readString();
+        this.remark = in.readString();
+        this.birthday = in.readString();
+        this.gender = in.readString();
+        this.address = in.readString();
+        this.contact = in.readString();
+        this.hobbies = in.readString();
+        this.goals = in.readString();
+    }
 
     @Override
     public int describeContents() {
@@ -140,16 +208,18 @@ public class Person implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(this.profilePic);
-        parcel.writeValue(this.bitmapImage);
-        parcel.writeStringArray(new String[] {  this.name,
-                                                this.remark,
-                                                this.birthday,
-                                                this.gender,
-                                                this.address,
-                                                this.contact,
-                                                this.hobbies,
-                                                this.goals});
+        parcel.writeLong(this.id);
+        parcel.writeByteArray(this.byteProfilePic);
+        parcel.writeString(this.fn);
+        parcel.writeString(this.mn);
+        parcel.writeString(this.ln);
+        parcel.writeString(this.remark);
+        parcel.writeString(this.birthday);
+        parcel.writeString(this.gender);
+        parcel.writeString(this.address);
+        parcel.writeString(this.contact);
+        parcel.writeString(this.hobbies);
+        parcel.writeString(this.goals);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

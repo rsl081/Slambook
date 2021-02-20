@@ -37,14 +37,42 @@
 
 
     <EditText
-        android:id="@+id/edt_name"
+        android:id="@+id/edt_fn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="70dp"
         android:layout_marginEnd="70dp"
         android:ems="10"
-        android:hint="Name*"
+        android:hint="FirstName*"
+        android:backgroundTint="#ffffff"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic" />
+
+    <EditText
+        android:id="@+id/edt_mn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:ems="10"
+        android:hint="MiddleName*"
+        android:backgroundTint="#ffffff"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic" />
+
+    <EditText
+        android:id="@+id/edt_ln"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:ems="10"
+        android:hint="LastName*"
         android:backgroundTint="#ffffff"
         android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"

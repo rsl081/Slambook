@@ -1,21 +1,31 @@
 package com.example.slambook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,11 +37,16 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
     //Camera
@@ -39,7 +54,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private static final int GALLERY_REQUEST = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private ImageView imageViewCapture;
-    private byte[] selectedImage;
+    private byte[] selectedImage = null;
 
     //Edit Text
     private EditText editUsername;
@@ -100,7 +115,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private String securityQ1;
     private String securityQ2;
     private String securityQ3;
-    private String secQuesText1 ="sample";
+    private String secQuesText1;
     private String secQuesText2;
     private String secQuesText3;
 
@@ -109,14 +124,19 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     Accounts accounts = new Accounts("", R.drawable.woman);
 
     //SQLite
-    SQLiteDBHelper dbconn;
+    DBHelper dbconn;
     boolean checkInsertOnce;
+
+    private AccountDb accountDb;
+    Accounts createdAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
-        dbconn = new SQLiteDBHelper(this);
+
+        this.accountDb = new AccountDb(this);
+
         try {
             Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/woman");
             InputStream stream = getContentResolver().openInputStream(uri);
@@ -196,7 +216,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.id_registerButton:
                 Validation();
-//                ShowSuccessDialog();
                 break;
             case R.id.id_loginButton:
                 OpenHomeActivity();
@@ -323,10 +342,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             }
             if(!checkInsertOnce)
             {
-                InsertNewUserDb(selectedImage,username,password,email,
+                // add the account to database
+                createdAccount = accountDb.createAccount(
+                        selectedImage,username,password,email,
                         bday,fullName,gender,address,contact,stringBuildHobby,
                         securityQ1,securityQ2,securityQ3);
-                checkInsertOnce = true;
+
             }
              ShowSuccessDialog();
         }
@@ -386,41 +407,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
 
     public void ShowSuccessDialog(){
-//        Cursor result = dbconn.SelectAllUser();
-//        if(result.getCount()==0){
-//            // ShowErrorDialog();
-//            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
-//        }else{
-//            StringBuffer stringBuffer = new StringBuffer();
-//            while(result.moveToNext()){
-//                stringBuffer.append("Username: \n" + result.getString(2) + "\n" +
-//                        "\nPassword: \n" + result.getString(3) + "\n" +
-//                        "\nEmailAddress: \n" + result.getString(4) + "\n" +
-//                        "\nBirthday: \n" + result.getString(5) + "\n" +
-//                        (fullName.matches("") ? "\nFullName:*\n" : "\nFullName: \n" +result.getString(6)) + "\n" +
-//                        "\nGender: \n" + result.getString(7) + "\n" +
-//                        "\nAddress: \n" + result.getString(8) + "\n" +
-//                        "\nContact: \n" + result.getString(9) + "\n" +
-//                        "\nHobby/s: \n" + result.getString(10) + "\n" +
-//                        "\n"+secQuesText1+ ": \n" + result.getString(11) + "\n" +
-//                        "\n"+secQuesText1+ ": \n" + result.getString(12) + "\n" +
-//                        "\n"+secQuesText1+ ": \n" + result.getString(13) + "\n");
-//            }
-//            AlertDialog.Builder error = new AlertDialog.Builder(this);
-//            error.setTitle("Success!");
-//            error.setMessage(stringBuffer);
-//            error.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    // stringBuildHobby.delete(0, stringBuildHobby.length());
-//                    Toast.makeText(getApplicationContext(), "Registration Was Successful!", Toast.LENGTH_SHORT).show();
-//                    // btnLogin.setEnabled(true);
-//                    // btnLogin.setAlpha(1);
-//                }
-//            });
-//            error.show();
-//        }
-//==========================================================================================
         AlertDialog.Builder error = new AlertDialog.Builder(this);
         error.setTitle("Success!");
         error.setMessage("Username: \n" + username + "\n" +
@@ -445,8 +431,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             }
         });
         error.show();
-
-    }
+    }// end of ShowSuccessDialog
 
     public void ShowPasswordDialog(){
         AlertDialog.Builder error = new AlertDialog.Builder(this);
@@ -466,7 +451,11 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                     photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     selectedImage = stream.toByteArray();
                     imageViewCapture.setImageBitmap(photo);
-                    accounts.setBitmapImageProfile(photo);
+                    try {
+                        SaveImage(photo, "happy");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case 1:
@@ -481,18 +470,39 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 break;
-//            default:
-//                try {
-//                    Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/woman");
-//                    InputStream stream = getContentResolver().openInputStream(uri);
-//                    selectedImage = getBytes(stream);
-//                    imageViewCapture.setImageURI(uri);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                break;
-        }
+        }//switch
     }// End of ActivityResult Curly Braces
+
+    private void SaveImage(Bitmap bitmap, @NonNull String name) throws IOException {
+        boolean saved;
+        OutputStream fos;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentResolver resolver = this.getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/" + "SLAMBOOK");
+            Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            fos = resolver.openOutputStream(imageUri);
+        } else {
+            String imagesDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM).toString() + File.separator + "SLAMBOOK";
+
+            File file = new File(imagesDir);
+
+            if (!file.exists()) {
+                file.mkdir();
+            }
+
+            File image = new File(imagesDir, name + ".png");
+            fos = new FileOutputStream(image);
+
+        }
+        saved = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        fos.flush();
+        fos.close();
+    }
 
     public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
@@ -512,6 +522,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
         {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_CAMERA_PERMISSION_CODE);
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_CAMERA_PERMISSION_CODE);
         }
         else
         {
@@ -546,20 +558,11 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     private void OpenHomeActivity()
     {
-        accounts.setAccountName(username);
-        Intent homeInent = new Intent(Registration.this, HomeActivity.class);
-        homeInent.putExtra("new_regist_user", accounts);
-        startActivity(homeInent);
-    }
-
-    private void InsertNewUserDb(byte[] profilePic,String username, String password, String email,
-                                 String bday, String fullname, String gender,
-                                 String address, String contact, StringBuilder hobbies,
-                                 String seques1,String seques2,String seques3)
-    {
-        dbconn.InsertUser(profilePic,username,password,email,bday,fullname,
-                            gender,address,contact,hobbies,
-                            seques1,seques2,seques3);
+        Intent intent = new Intent(Registration.this, HomeActivity.class);
+        intent.putExtra(HomeActivity.EXTRA_ADDED_ACCOUNT, createdAccount);
+        intent.putExtra("RegisteredUser", username);
+        startActivity(intent);
+        finish();
     }
 
 }

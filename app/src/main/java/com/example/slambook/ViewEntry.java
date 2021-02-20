@@ -1,6 +1,8 @@
 package com.example.slambook;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,19 +21,22 @@ import java.util.ArrayList;
 
 public class ViewEntry extends AppCompatActivity {
 
+    private PersonDb personDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_entry_list);
+        this.personDb = new PersonDb(this);
         Init();
     }
 
     private void Init (){
-        Intent intent = getIntent();
+        Bundle bundle = this.getIntent().getExtras();
 
-        Person person = intent.getParcelableExtra("ViewList");
+        Person person = bundle.getParcelable("ViewList");
         ImageView profilePicImageView = findViewById(R.id.profile_pic);
-        TextView textViewName = findViewById(R.id.txt_name);
+        TextView textViewName = findViewById(R.id.txt_fn);
         TextView textViewRemark = findViewById(R.id.txt_remark);
         TextView textViewBday = findViewById(R.id.txt_bday);
         TextView textViewGender = findViewById(R.id.txt_gender);
@@ -39,13 +44,17 @@ public class ViewEntry extends AppCompatActivity {
         TextView textViewContact = findViewById(R.id.txt_contact);
         TextView textViewHobbies = findViewById(R.id.txt_hobbies);
         TextView textViewGoals = findViewById(R.id.txt_goals);
-
-        if (person.getBitmapImage()!=null) {
-            profilePicImageView.setImageBitmap(person.getBitmapImage());
-        } else {
-            profilePicImageView.setImageResource(person.getProfilePic());
-        }
-        textViewName.setText(person.getAccountName());
+//
+//        if (person.getBitmapImage()!=null) {
+//            profilePicImageView.setImageBitmap(person.getBitmapImage());
+//        } else {
+//            profilePicImageView.setImageResource(person.getProfilePic());
+//        }
+        byte[] byteImg = person.getByteProfilePic();
+        Bitmap bitmapImages = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+        profilePicImageView.setImageBitmap(bitmapImages);
+        String fullname = person.getFn() + " " + person.getMn() + " " + person.getLn();
+        textViewName.setText(fullname);
         textViewRemark.setText(person.getRemark());
         textViewBday.setText(person.getBirthday());
         textViewGender.setText(person.getGender());

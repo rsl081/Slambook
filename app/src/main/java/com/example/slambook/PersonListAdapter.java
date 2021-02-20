@@ -1,6 +1,8 @@
 package com.example.slambook;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,17 +104,14 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Person person = persons.get(position);
-
-        if (person.getBitmapImage() == null) {
-            holder.profilePic.setImageResource(person.getProfilePic());
-        } else {
-            holder.profilePic.setImageBitmap(person.getBitmapImage());
+        if(person != null) {
+            byte[] images = person.getByteProfilePic();
+            Bitmap bitmapImages = BitmapFactory.decodeByteArray(images, 0, images.length);
+            holder.profilePic.setImageBitmap(bitmapImages);
+            holder.name.setText(person.getFn());
+            holder.remark.setText(person.getRemark());
         }
-
-        holder.name.setText(person.getAccountName());
-        holder.remark.setText(person.getRemark());
-
-    }
+    }// end fo curly braces onBindViewHolder
 
     @Override
     public int getItemCount() {

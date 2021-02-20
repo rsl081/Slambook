@@ -8,9 +8,9 @@ public class DB_Conn {
         //registration table
         public static String USER_TB = "table_user";
         //Column name
-        public static String COLUMN_USER_IMAGE = "user_image";
         public static String COLUMN_USER_ID = "user_id";
-        public static String COLUMN_USER_USERNAME = "user_username";
+        public static String COLUMN_USER_IMAGE = "user_image";
+        public static final String COLUMN_USER_USERNAME = "user_username";
         public static String COLUMN_USER_PASSWORD = "user_password";
         public static String COLUMN_USER_EMAIL = "user_email";
         public static String COLUMN_USER_BDAY = "user_bday";
@@ -29,6 +29,7 @@ public class DB_Conn {
         public static String Entry_TB = "table_entry";
         //column names
         public static String COLUMN_ENTRY_ID = UserDatabase.COLUMN_USER_ID;
+        public static String COLUMN_ENTRY_IMAGE = "entry_image";
         public static String COLUMN_ENTRY_FN = "entry_fn";
         public static String COLUMN_ENTRY_MN = "entry_mn";
         public static String COLUMN_ENTRY_LN = "entry_ln";
@@ -39,7 +40,7 @@ public class DB_Conn {
         public static String COLUMN_ENTRY_CONTACT = "entry_contact";
         public static String COLUMN_ENTRY_HOBBIES = "entry_hobbies";
         public static String COLUMN_ENTRY_GOALS = "entry_goals";
-        public static String COLUMN_ENTRY_IMAGE = "entry_image";
+        public static final String COLUMN_ACCOUNT_ID = "account_id";
     }
 
     public static class Post implements BaseColumns {

@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,15 +22,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddEntry extends AppCompatActivity implements View.OnClickListener, DialogOthersGender.DialogOthersGenderListener {
 
-    private static final int CAMERA_REQUEST = 1888;
+    private static final int CAMERA_REQUEST = 0;
+    private static final int GALLERY_REQUEST = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private byte[] selectedImage;
 
     private ImageView imageViewPic;
-    private EditText editTextName;
+    private EditText editTextFn;
+    private EditText editTextMn;
+    private EditText editTextLn;
     private EditText editTextRemark;
     private EditText editTextBday;
     private RadioButton radioFemale;
@@ -43,7 +53,10 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
     private String gender = "female";
     private String getGender = "";
 
-    private String name;
+    private String fullName;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String remark;
     private String birthday;
     private String address;
@@ -52,23 +65,37 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
     private String goals;
 
     DatePickerDialog dateDialog;
+    Person person;
+    //SQLite
+    private PersonDb personDb;
+    private AccountDb accountDb;
+    Accounts accounts;
+    Intent intentUpdateList;
 
-    Person person = new Person(R.drawable.woman,"Bino Santos", "BestFriend", "March 12 2020",
-            "Lesbian", "Baliwag Bulacan", "09323216432", "Eating", "Cars");
-
-    int positionOfPeopleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_entry);
 
+        this.accountDb = new AccountDb(this);
+        this.personDb = new PersonDb(this);
+
+        try {
+            Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/woman");
+            InputStream stream = getContentResolver().openInputStream(uri);
+            selectedImage = getBytes(stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Init();
     }
 
     private void Init(){
         imageViewPic = findViewById(R.id.add_capture);
-        editTextName = findViewById(R.id.edt_name);
+        editTextFn = findViewById(R.id.edt_fn);
+        editTextMn = findViewById(R.id.edt_mn);
+        editTextLn = findViewById(R.id.edt_ln);
         editTextRemark = findViewById(R.id.remark);
         editTextBday = findViewById(R.id.birthday);
         radioFemale = (RadioButton) findViewById(R.id.rd_female);
@@ -102,9 +129,13 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
         addBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
 
+        //Gender Listener
         radioFemale.setOnClickListener(this);
         radioMale.setOnClickListener(this);
         radioOtherGender.setOnClickListener(this);
+
+        //Date Listener
+        editTextBday.setOnClickListener(this);
     }//End of Init
 
     public void datepickerdialog(){
@@ -129,7 +160,9 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
 
     public void Validation(){
 
-        name = editTextName.getText().toString();
+        firstName = editTextFn.getText().toString();
+        middleName = editTextMn.getText().toString();
+        lastName = editTextLn.getText().toString();
         remark = editTextRemark.getText().toString();
         birthday = editTextBday.getText().toString();
         address = editTextAddress.getText().toString();
@@ -140,16 +173,17 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
         if(IsError()){
             ShowErrorDialog();
         }else{
-            UpdateList();
+            AddList();
         }
 
     }
 
     boolean IsError(){
-        if( name.equals("") || remark.equals("") ||
-                birthday.equals("") || address.equals("") ||
-                contact.equals("") || gender.equals("") ||
-                hobbies.isEmpty() || goals.equals("")){
+        if( firstName.equals("") || middleName.equals("") ||
+            lastName.equals("") || remark.equals("") ||
+            birthday.equals("") || address.equals("") ||
+            contact.equals("") || gender.equals("") ||
+            hobbies.isEmpty() || goals.equals("")){
             return true;
         }else{
             return false;
@@ -164,15 +198,7 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
                 Validation();
                 break;
             case R.id.add_capture:
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                }
-                else
-                {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                }
+                CaptureImage();
                 break;
             case R.id.birthday:
                 datepickerdialog();
@@ -226,17 +252,74 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageViewPic.setImageBitmap(photo);
-            person.setBitmapImage(photo);
+        switch(requestCode) {
+            case 0:
+                if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    selectedImage = stream.toByteArray();
+                    imageViewPic.setImageBitmap(photo);
+                }
+                break;
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Uri uri = data.getData();
+                        InputStream iStream = getContentResolver().openInputStream(uri);
+                        selectedImage = getBytes(iStream);
+                        imageViewPic.setImageURI(uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }//switch
+    }
+
+    private void CaptureImage()
+    {
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+        }
+        else
+        {
+            DialogForImages();
         }
     }
 
+    private void DialogForImages()
+    {
+        String[] items = {"Take Photo", "Choose from gallery", "Cancel"};
 
-    public void UpdateList(){
-        Bitmap getProfilePic = person.getBitmapImage();
-        String getName = editTextName.getText().toString();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Photo");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(items[which].equals("Take Photo")){
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                }else if(items[which].equals("Choose from gallery")){
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , GALLERY_REQUEST);
+                }else{
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    public void AddList(){
+        intentUpdateList = new Intent();
+        String getFn = editTextFn.getText().toString();
+        String getMn = editTextMn.getText().toString();
+        String getLn = editTextLn.getText().toString();
+        fullName = getFn + " " + getMn + " " + getLn;
         String getRemark = editTextRemark.getText().toString();
         String getBday = editTextBday.getText().toString();
         String getAddress = editTextAddress.getText().toString();
@@ -244,40 +327,51 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
         String getHobbies = editTextHobbies.getText().toString();
         String getGoals = editTextGoals.getText().toString();
 
-        person.setBitmapImage(getProfilePic);
-        person.setAccountName(getName);
-        person.setRemark(getRemark);
-        person.setGender(getGender);
-        person.setBirthday(getBday);
-        person.setAddress(getAddress);
-        person.setContact(getContact);
-        person.setHobbies(getHobbies);
-        person.setGoals(getGoals);
+        Bundle bundle = this.getIntent().getExtras();
+        long accountID = bundle.getLong("add_person",0);
 
-        Intent intentUpdateList = new Intent();
+        person = personDb.createPerson(selectedImage,getFn,getMn,
+                getLn,getRemark,getBday,
+                getGender, getAddress,getContact,
+                getHobbies,getGoals,accountID);
+
         intentUpdateList.putExtra("new_person", person);
         setResult(RESULT_OK, intentUpdateList);
         finish();
     }
+    //=====================================================
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
 
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
 
     public void ShowErrorDialog(){
-        String str_name = "Name is Missing!\n";
+        String str_fn = "First Name is Missing!\n";
+        String str_mn = "\nMiddle Name is Missing!\n";
+        String str_ln = "\nLast Name is Missing!\n";
         String str_remark = "\nRemark is Missing!\n";
         String str_birthday = "\nBirthday is Missing!\n";
         String str_genders = "\nGender is Missing!\n";
-        String str_address = "\nAddress Address is Missing!\n";
+        String str_address = "\nAddress is Missing!\n";
         String str_contact = "\nContact is Missing!\n";
         String str_hobbies = "\nHobbies is Missing!\n";
         String str_goals = "\nGoals is Missing!\n";
 
-
         AlertDialog.Builder error = new AlertDialog.Builder(this);
         error.setTitle("Missing In Action!");
-        error.setMessage(   (name.matches("") ? str_name : str_name.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
+        error.setMessage((firstName.matches("") ? str_fn : str_fn.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
+                (middleName.matches("") ? str_mn : str_mn.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
+                (lastName.matches("") ? str_ln : str_ln.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (remark.matches("") ? str_remark : str_remark.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (birthday.matches("") ? str_birthday : str_birthday.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
-                (gender.matches("") ? str_genders : str_genders.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
+                (getGender.matches("") ? str_genders : str_genders.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (address.matches("") ? str_address : str_address.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (contact.matches("") ? str_contact : str_contact.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (hobbies.matches("") ? str_hobbies : str_hobbies.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
