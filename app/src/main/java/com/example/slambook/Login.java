@@ -38,7 +38,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     DBHelper helper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
@@ -48,7 +49,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         init();
     }
 
-    private void init() {
+    private void init()
+    {
     accountsArrayList.add(accountsArray[1]);
         //Button
         loginBtn = findViewById(R.id.id_LoginButton);
@@ -64,7 +66,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         name = usernameEdit.getText().toString().trim();
         pass = passwordEdit.getText().toString().trim();
         switch (v.getId()) {

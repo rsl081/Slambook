@@ -82,7 +82,7 @@ public class AddEntry extends AppCompatActivity implements View.OnClickListener,
         this.personDb = new PersonDb(this);
 
         try {
-            Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/woman");
+            Uri uri = Uri.parse("android.resource://com.example.slambook/drawable/unisex");
             InputStream stream = getContentResolver().openInputStream(uri);
             selectedImage = getBytes(stream);
         } catch (IOException e) {
