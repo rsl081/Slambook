@@ -718,31 +718,41 @@
                             android:textColor="@color/white"
                             android:backgroundTint="@android:color/white" />
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/linearLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:orientation="horizontal">
 
                             <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/id_registerButton"
-                                android:layout_width="150dp"
-                                android:layout_height="48dp"
-                                android:layout_margin="10dp"
-                                android:background="@drawable/register_button" />
-
-                            <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/id_loginButton"
-                                android:layout_width="150dp"
-                                android:layout_height="48dp"
-                                android:layout_margin="10dp"
+                                android:layout_width="149dp"
+                                android:layout_height="54dp"
                                 android:alpha=".5"
+                                android:background="@drawable/loginbutton"
                                 android:enabled="false"
                                 android:shadowColor="@color/black"
-                                android:background="@drawable/loginbutton" />
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.063"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="MissingConstraints" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/id_registerButton"
+                                android:layout_width="149dp"
+                                android:layout_height="52dp"
+                                android:background="@drawable/register_button"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/id_loginButton"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="MissingConstraints" />
 
 
-                        </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     </LinearLayout>
