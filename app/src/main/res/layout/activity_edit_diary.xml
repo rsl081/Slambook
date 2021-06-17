@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_sa_adnew_entry"
+    android:orientation="vertical"
+    android:layout_weight="4"
+    tools:context=".EditDiaryActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/edt_diary_add_capture"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/capture" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <EditText
+                android:id="@+id/edit_diary_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:ems="10"
+                android:hint="Subject*"
+                android:backgroundTint="#ffffff"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF"
+                android:padding="10dp"
+                android:textStyle="italic" />
+
+            <EditText
+                android:id="@+id/edit_diary_message"
+                android:layout_width="match_parent"
+                android:layout_height="229dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:background="@color/white"
+                android:backgroundTint="#ffffff"
+                android:ems="10"
+                android:hint="Dear Diary*"
+                android:inputType="textMultiLine"
+                android:lines="10"
+                android:gravity="top|left"
+                android:textColor="@color/black"
+                android:padding="10dp"
+                android:textColorHint="@color/design_default_color_primary_dark"
+                android:textStyle="italic" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/edit_diary_btn_cancel"
+                    android:layout_width="160dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/cancelbutton" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/edit_btn_addDiary"
+                    android:layout_width="160dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/diarybuttonedit" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -27,13 +27,7 @@ public class AccountDb {
             DB_Conn.UserDatabase.COLUMN_USER_EMAIL,
             DB_Conn.UserDatabase.COLUMN_USER_BDAY,
             DB_Conn.UserDatabase.COLUMN_USER_FULLNAME,
-            DB_Conn.UserDatabase.COLUMN_USER_GENDER,
-            DB_Conn.UserDatabase.COLUMN_USER_ADDRESS,
-            DB_Conn.UserDatabase.COLUMN_USER_CONTACT,
-            DB_Conn.UserDatabase.COLUMN_USER_HOBBIES,
-            DB_Conn.UserDatabase.COLUMN_USER_SECQUES1,
-            DB_Conn.UserDatabase.COLUMN_USER_SECQUES2,
-            DB_Conn.UserDatabase.COLUMN_USER_SECQUES3
+            DB_Conn.UserDatabase.COLUMN_USER_GENDER
     };
 
     public AccountDb(Context context) {
@@ -51,7 +45,6 @@ public class AccountDb {
 
     public void open() throws SQLException {
         mDatabase = mDbHelper.getWritableDatabase();
- //       mDatabase = mDbHelper.getReadableDatabase();
     }
 
 
@@ -72,12 +65,6 @@ public class AccountDb {
         values.put(DB_Conn.UserDatabase.COLUMN_USER_BDAY,bday);
         values.put(DB_Conn.UserDatabase.COLUMN_USER_FULLNAME,fullname);
         values.put(DB_Conn.UserDatabase.COLUMN_USER_GENDER,gender);
-        values.put(DB_Conn.UserDatabase.COLUMN_USER_ADDRESS,address);
-        values.put(DB_Conn.UserDatabase.COLUMN_USER_CONTACT,contact);
-        values.put(DB_Conn.UserDatabase.COLUMN_USER_HOBBIES, String.valueOf(hobbies));
-        values.put(DB_Conn.UserDatabase.COLUMN_USER_SECQUES1,seques1);
-        values.put(DB_Conn.UserDatabase.COLUMN_USER_SECQUES2,seques2);
-        values.put(DB_Conn.UserDatabase.COLUMN_USER_SECQUES3,seques3);
 
         long insertId = mDatabase
                 .insert(DB_Conn.UserDatabase.USER_TB, null, values);
@@ -130,12 +117,6 @@ public class AccountDb {
         accounts.setBday(cursor.getString(5));
         accounts.setFullname(cursor.getString(6));
         accounts.setGender(cursor.getString(7));
-        accounts.setAddress(cursor.getString(8));
-        accounts.setContact(cursor.getInt(9));
-        accounts.setListHobbies(cursor.getString(10));
-        accounts.setSeques1(cursor.getString(11));
-        accounts.setSeques2(cursor.getString(12));
-        accounts.setSeques3(cursor.getString(13));
         return accounts;
     }
     public boolean CheckUser(String username, String password) {

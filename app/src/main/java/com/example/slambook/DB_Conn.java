@@ -4,7 +4,8 @@ import android.provider.BaseColumns;
 
 public class DB_Conn {
 
-    public static class UserDatabase implements BaseColumns {
+    public static class UserDatabase implements BaseColumns
+    {
         //registration table
         public static String USER_TB = "table_user";
         //Column name
@@ -16,12 +17,6 @@ public class DB_Conn {
         public static String COLUMN_USER_BDAY = "user_bday";
         public static String COLUMN_USER_FULLNAME = "user_fullname";
         public static String COLUMN_USER_GENDER = "user_gender";
-        public static String COLUMN_USER_ADDRESS = "user_address";
-        public static String COLUMN_USER_CONTACT = "user_contact";
-        public static String COLUMN_USER_HOBBIES = "user_hobbies";
-        public static String COLUMN_USER_SECQUES1 = "user_security_question_1";
-        public static String COLUMN_USER_SECQUES2 = "user_security_question_2";
-        public static String COLUMN_USER_SECQUES3 = "user_security_question_3";
     }
 
     public static class EntryList_Data implements BaseColumns{
@@ -43,7 +38,17 @@ public class DB_Conn {
         public static final String COLUMN_ACCOUNT_ID = "account_id";
     }
 
-    public static class Post implements BaseColumns {
-        //di ko alam ang ipopost mo pwd naman ata na non applicable na to ahahha
+    public static class Diary_Data implements BaseColumns
+    {
+        //diary table
+        public static String Diary_TB = "table_diary";
+        //column names
+        public static String COLUMN_DIARY_ID = UserDatabase.COLUMN_USER_ID;
+        public static String COLUMN_DIARY_IMAGE = "diary_image";
+        public static String COLUMN_DIARY_SUBJECT = "diary_subject";
+        public static String COLUMN_DIARY_MESSAGE = "diary_message";
+        public static String COLUMN_DIARY_DATE = "diary_date";
+        public static String COLUMN_DIARY_TIME = "diary_time";
+        public static final String COLUMN_DIARY_ACCOUNT_ID = "diary_account_id";
     }
 }

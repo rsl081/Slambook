@@ -9,110 +9,109 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class DiaryListActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewDiary;
     private RecyclerView.LayoutManager myLayoutManager;
 
     private RecyclerView recyclerViewAccount;
     private RecyclerView.LayoutManager myLayoutManagerAccount;
 
     public static final String POSITION = "com.example.slambook.POSITION";
-    public static final String PEOPLE_LIST = "com.example.slambook.PEOPLE_LIST";
+    public static final String DIARY_LIST = "com.example.slambook.DIARY_LIST";
     //Add the Person objects to an ArrayList
-    ArrayList<Person> peopleList = new ArrayList<>();
+    ArrayList<Diary> diaryList = new ArrayList<>();
 
-    PersonListAdapter personListAdapter;
+    DiaryListAdapter diaryListAdapter;
     //Add the Accounts objects to an ArrayList
     ArrayList<Accounts> accountList = new ArrayList<>();
 
     AccountListAdapter accountListAdapter;
     public static final int REQUEST_CODE_ADD_COMPANY = 40;
     public static final String EXTRA_ADDED_ACCOUNT = "extra_key_added_account";
-    public static final String EXTRA_ADDED_PERSON = "extra_key_added_person";
+    public static final String EXTRA_ADDED_DIARY = "extra_key_added_diary";
 
     //Database
     private AccountDb accountDb;
-    private PersonDb personDb;
-    long createdPerson;
+    private DiaryAccountDb diaryAccountDb;
+    long createdDiary;
     long sendRegister;
-    Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entry_list);
+        setContentView(R.layout.activity_diary_list);
 
         this.accountDb = new AccountDb(this);
-        this.personDb = new PersonDb(this);
+        this.diaryAccountDb = new DiaryAccountDb(this);
         Init();
     }
 
-    protected void Init(){
+    private void Init(){
         Intent intent = getIntent();
 
         if(intent != null){
             Accounts createdAccount = intent.getParcelableExtra(EXTRA_ADDED_ACCOUNT);
-            createdPerson = intent.getLongExtra(EXTRA_ADDED_PERSON,0);
+            createdDiary = intent.getLongExtra(EXTRA_ADDED_DIARY,0);
 
             if(intent.hasExtra("RegisteredUser")){
                 String registeredUsername = intent.getStringExtra("RegisteredUser");
                 sendRegister = accountDb.Sender(registeredUsername);
             }
 
-            if(peopleList != null){
-                peopleList = (ArrayList<Person>) personDb.getAllPeople(createdPerson);
+            if(diaryList != null)
+            {
+                diaryList = (ArrayList<Diary>) diaryAccountDb.getAllDiary(createdDiary);
             }
             accountList.add(createdAccount);
 
-
-            recyclerView = findViewById(R.id.recycleView);
-            recyclerView.setHasFixedSize(true);
+            //diary_recycleView
+            recyclerViewDiary = findViewById(R.id.diary_recycleView);
+            recyclerViewDiary.setHasFixedSize(true);
             myLayoutManager = new LinearLayoutManager(this);
-            personListAdapter = new PersonListAdapter(this, peopleList);
-            recyclerView.setLayoutManager(myLayoutManager);
-            recyclerView.setAdapter(personListAdapter);
-            personListAdapter.setOnItemClickListener(new PersonListAdapter.OnItemClickListener() {
+            diaryListAdapter = new DiaryListAdapter(this, diaryList);
+            recyclerViewDiary.setLayoutManager(myLayoutManager);
+            recyclerViewDiary.setAdapter(diaryListAdapter);
+            diaryListAdapter.setOnItemClickListener(new DiaryListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    String personFn = peopleList.get(position).getFn();
-                    long getPersonId = personDb.SenderPerson(personFn);
+                    String diarySubject = diaryList.get(position).getSubject();
+                    long getDiaryId = diaryAccountDb.SenderDiary(diarySubject);
 
-                    Intent intentToViewEntryAct = new Intent(HomeActivity.this, ViewEntry.class);
-                        intentToViewEntryAct.putExtra("ViewPerson", getPersonId);
-                        intentToViewEntryAct.putExtra("ViewList", peopleList.get(position));
-                        startActivity(intentToViewEntryAct);
+                    Intent intentToViewEntryAct = new Intent(DiaryListActivity.this, ViewDiaryActivity.class);
+                    intentToViewEntryAct.putExtra("ViewPerson", getDiaryId);
+                    intentToViewEntryAct.putExtra("ViewDiary", diaryList.get(position));
+                    startActivity(intentToViewEntryAct);
                 }
             });
 
-            personListAdapter.setOnClickListener(new PersonListAdapter.OnClickListener() {
+            diaryListAdapter.setOnClickListener(new DiaryListAdapter.OnClickListener() {
                 @Override
                 public void OnClickListener(int position) {
                     DeleteList(position);
                 }
             });
 
-            personListAdapter.setOnClickListener2(new PersonListAdapter.OnClickListener() {
+            diaryListAdapter.setOnClickListener2(new DiaryListAdapter.OnClickListener() {
                 @Override
                 public void OnClickListener(int position) {
-                    String personFn = peopleList.get(position).getFn();
-                    long getPersonId = personDb.SenderPerson(personFn);
-                    Intent intentToEditEntryAct = new Intent(HomeActivity.this, EditEntry.class);
+                    String diarySubject = diaryList.get(position).getSubject();
+                    long getDiaryId = diaryAccountDb.SenderDiary(diarySubject);
+                    Intent intentToEditEntryAct = new Intent(DiaryListActivity.this, EditDiaryActivity.class);
                     intentToEditEntryAct.putExtra(POSITION, position);
-                    intentToEditEntryAct.putExtra("person_id", getPersonId);
-                    intentToEditEntryAct.putExtra(PEOPLE_LIST, peopleList.get(position));
+                    intentToEditEntryAct.putExtra("diary_id", getDiaryId);
+                    intentToEditEntryAct.putExtra(DIARY_LIST, diaryList.get(position));
                     startActivityForResult(intentToEditEntryAct, 1);
                 }
             });
 
-            recyclerViewAccount = findViewById(R.id.recycleView_account);
+            recyclerViewAccount = findViewById(R.id.diary_recycleView_account);
             recyclerViewAccount.setHasFixedSize(true);
             myLayoutManagerAccount = new LinearLayoutManager(this);
             accountListAdapter = new AccountListAdapter(this, accountList);
@@ -126,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
-        Button addEntry = findViewById(R.id.btn_add_new_entry);
+        Button addEntry = findViewById(R.id.btn_add_new_diary);
 
         addEntry.setOnClickListener(this);
     }// end of Curly braces INIT
@@ -137,47 +136,41 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 int position = data.getIntExtra("update_list", 0);
-                Person edit_person = data.getParcelableExtra("edit_person");
+                Diary edit_diary = data.getParcelableExtra("edit_diary");
 
-                peopleList.set(position, edit_person);
-                personListAdapter.notifyDataSetChanged();
-                //data.removeExtra(String.valueOf(edit_person));
+                diaryList.set(position, edit_diary);
+                diaryListAdapter.notifyDataSetChanged();
             }
         }
         if (requestCode == 2) {
             if(resultCode == RESULT_OK) {
                 if(data.getExtras() != null){
-                    Person person = data.getParcelableExtra("new_person");
-//                    long getRowPeople = data.getLongExtra("get_row_people",0);
-//                    if(peopleList != null){
-//                        peopleList = (ArrayList<Person>) personDb.getAllPeople(getRowPeople);
-//                        personListAdapter.notifyDataSetChanged();
-//                    }
-                    peopleList.add(0,person);
-                    personListAdapter.notifyDataSetChanged();
+                    Diary diary = data.getParcelableExtra("new_diary");
+                    diaryList.add(0,diary);
+                    diaryListAdapter.notifyDataSetChanged();
                 }
             }
         }//end of if requestCode 2
     }
 
-    public void Logout() {
+    public void Logout()
+    {
         AlertDialog.Builder bldg = new AlertDialog.Builder(this);
         bldg.setTitle("Are you sure you want to logout?");
         bldg.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               startActivity(new Intent(HomeActivity.this, Login.class));
+                startActivity(new Intent(DiaryListActivity.this, DiaryLoginActivity.class));
             }
         });
         bldg.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(HomeActivity.this, "Cancelled so sad!", Toast.LENGTH_LONG).show();
+                Toast.makeText(DiaryListActivity.this, "Cancelled so sad!", Toast.LENGTH_LONG).show();
             }
         });
         bldg.show();
     }//end of Logout CURLY BRACES
-
 
     public void DeleteList(int position) {
         AlertDialog.Builder bldg = new AlertDialog.Builder(this);
@@ -185,17 +178,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         bldg.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String personFn = peopleList.get(position).getFn();
-                long getPersonId = personDb.SenderPerson(personFn);
-                personDb.DeletePerson(getPersonId);
-                peopleList.remove(position);
-                personListAdapter.notifyDataSetChanged();
+                String diarySubject = diaryList.get(position).getSubject();
+                long getPersonId = diaryAccountDb.SenderDiary(diarySubject);
+                diaryAccountDb.DeleteDiary(getPersonId);
+                diaryList.remove(position);
+                diaryListAdapter.notifyDataSetChanged();
             }
         });
         bldg.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(HomeActivity.this, "Cancel!", Toast.LENGTH_LONG).show();
+                Toast.makeText(DiaryListActivity.this, "Cancel!", Toast.LENGTH_LONG).show();
             }
         });
         bldg.show();
@@ -204,20 +197,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_add_new_entry:
-                AddNewEntry();
-            break;
+            case R.id.btn_add_new_diary:
+                AddNewDiary();
+                break;
         }
     }
 
-    public void AddNewEntry(){
-        Intent addEntryIntent = new Intent(HomeActivity.this, AddEntry.class);
+    public void AddNewDiary(){
+        Intent addEntryIntent = new Intent(DiaryListActivity.this, AddDiaryActivity.class);
         if(sendRegister == 0){
-            addEntryIntent.putExtra("add_person", createdPerson);
-//            Log.d("happy", "goods ahh");
+            addEntryIntent.putExtra("add_diary", createdDiary);
         }else{
-            addEntryIntent.putExtra("add_person", sendRegister);
-//            Log.d("happy", String.valueOf(sendRegister));
+            addEntryIntent.putExtra("add_diary", sendRegister);
         }
 
         startActivityForResult(addEntryIntent, 2);

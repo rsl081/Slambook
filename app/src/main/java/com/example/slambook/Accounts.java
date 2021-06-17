@@ -24,12 +24,12 @@ public class Accounts implements Parcelable {
     private String bday;
     private String fullname;
     private String gender;
-    private String address;
-    private int contact;
-    private String stringBuildHobby;
-    private String seques1;
-    private String seques2;
-    private String seques3;
+//    private String address;
+//    private int contact;
+//    private String stringBuildHobby;
+//    private String seques1;
+//    private String seques2;
+//    private String seques3;
 
 
     public Accounts() {}
@@ -45,12 +45,12 @@ public class Accounts implements Parcelable {
         this.bday = bday;
         this.fullname = fullname;
         this.gender = gender;
-        this.address = address;
-        this.contact = contact;
-        this.stringBuildHobby = hobbies;
-        this.seques1 = seques1;
-        this.seques2 = seques2;
-        this.seques3 = seques3;
+//        this.address = address;
+//        this.contact = contact;
+//        this.stringBuildHobby = hobbies;
+//        this.seques1 = seques1;
+//        this.seques2 = seques2;
+//        this.seques3 = seques3;
     }
 
     public Accounts(String username, String password, String accountName, Person[] person){
@@ -120,29 +120,29 @@ public class Accounts implements Parcelable {
         this.gender = gender;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setContact(int contact) {
-        this.contact = contact;
-    }
-
-    public void setListHobbies(String stringBuildHobby) {
-        this.stringBuildHobby = stringBuildHobby;
-    }
-
-    public void setSeques1(String seques1) {
-        this.seques1 = seques1;
-    }
-
-    public void setSeques2(String seques2) {
-        this.seques2 = seques2;
-    }
-
-    public void setSeques3(String seques3) {
-        this.seques3 = seques3;
-    }
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    public void setContact(int contact) {
+//        this.contact = contact;
+//    }
+//
+//    public void setListHobbies(String stringBuildHobby) {
+//        this.stringBuildHobby = stringBuildHobby;
+//    }
+//
+//    public void setSeques1(String seques1) {
+//        this.seques1 = seques1;
+//    }
+//
+//    public void setSeques2(String seques2) {
+//        this.seques2 = seques2;
+//    }
+//
+//    public void setSeques3(String seques3) {
+//        this.seques3 = seques3;
+//    }
 
     public Uri getUriImageProfile() { return getUriImageProfile(); }
     public Bitmap getBitmapImageProfile() { return bitmapImageProfile; }
@@ -183,29 +183,29 @@ public class Accounts implements Parcelable {
         return gender;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public int getContact() {
-        return contact;
-    }
-
-    public String getStringBuildHobby() {
-        return stringBuildHobby;
-    }
-
-    public String getSeques1() {
-        return seques1;
-    }
-
-    public String getSeques2() {
-        return seques2;
-    }
-
-    public String getSeques3() {
-        return seques3;
-    }
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public int getContact() {
+//        return contact;
+//    }
+//
+//    public String getStringBuildHobby() {
+//        return stringBuildHobby;
+//    }
+//
+//    public String getSeques1() {
+//        return seques1;
+//    }
+//
+//    public String getSeques2() {
+//        return seques2;
+//    }
+//
+//    public String getSeques3() {
+//        return seques3;
+//    }
 
     protected Accounts(Parcel in) {
         this.mId = in.readLong();

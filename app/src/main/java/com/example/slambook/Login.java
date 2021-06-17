@@ -21,20 +21,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-    private EditText usernameEdit;
-    private EditText passwordEdit;
-    private Button loginBtn;
-    private Button registerBtn;
-    private Toast popUp;
-    private String name, pass;
+    protected EditText usernameEdit;
+    protected EditText passwordEdit;
+    protected Button loginBtn;
+    protected Button registerBtn;
+    protected Toast popUp;
+    protected String name, pass;
     Accounts[] accountsArray = new Accounts[3];
-    private ArrayList<Accounts> accountsArrayList = new ArrayList<>();
+    protected ArrayList<Accounts> accountsArrayList = new ArrayList<>();
     Intent myIntent;
     Accounts accounts = new Accounts("", R.drawable.woman);
 
     //SQLite
-    private AccountDb accountDb;
-    private PersonDb personDb;
+    protected AccountDb accountDb;
+    protected PersonDb personDb;
     DBHelper helper;
 
     @Override
@@ -154,7 +154,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         myIntent.putExtra("username", name);
         myIntent.putExtra("password", pass);
         long sendUsername = accountDb.Sender(name);
-        //Log.d("haha", String.valueOf(sendUsername));
         myIntent.putExtra(HomeActivity.EXTRA_ADDED_ACCOUNT, (Parcelable) accountDb.getAccountId(sendUsername));
         myIntent.putExtra(HomeActivity.EXTRA_ADDED_PERSON, sendUsername);
     }

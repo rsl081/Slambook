@@ -1,16 +1,9 @@
 package com.example.slambook;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.widget.Toast;
-
-import java.sql.Blob;
-import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -36,13 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "'"+DB_Conn.UserDatabase.COLUMN_USER_EMAIL+"'TEXT NOT NULL," +
                 "'"+DB_Conn.UserDatabase.COLUMN_USER_BDAY+"'DATE NOT NULL," +
                 "'"+DB_Conn.UserDatabase.COLUMN_USER_FULLNAME+"'TEXT NOT NULL," +
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_GENDER+"'TEXT NOT NULL," +
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_ADDRESS+"'TEXT NOT NULL," +
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_CONTACT+"'INTEGER NOT NULL,"+
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_HOBBIES+"'TEXT NOT NULL,"+
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_SECQUES1+"'TEXT NOT NULL," +
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_SECQUES2+"'TEXT NOT NULL," +
-                "'"+DB_Conn.UserDatabase.COLUMN_USER_SECQUES3+"'TEXT NOT NULL)";
+                "'"+DB_Conn.UserDatabase.COLUMN_USER_GENDER+"'TEXT NOT NULL)";
 
         final  String CREATE_ENTRYLIST_TABLE = "CREATE TABLE '"+DB_Conn.EntryList_Data.Entry_TB+
                 "' (" + " '"+DB_Conn.EntryList_Data.COLUMN_ENTRY_ID+"'INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -59,14 +46,28 @@ public class DBHelper extends SQLiteOpenHelper {
                 "'"+DB_Conn.EntryList_Data.COLUMN_ENTRY_GOALS+"'TEXT NOT NULL, "+
                 "'"+DB_Conn.EntryList_Data.COLUMN_ACCOUNT_ID+"'INTEGER NOT NULL)";
 
+        final  String CREATE_DIARY_TABLE = "CREATE TABLE '"+DB_Conn.Diary_Data.Diary_TB+
+                "' (" + " '"+DB_Conn.Diary_Data.COLUMN_DIARY_ID +"'INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "'"+DB_Conn.Diary_Data.COLUMN_DIARY_IMAGE +"'BLOB NOT NULL, "+
+                "'"+DB_Conn.Diary_Data.COLUMN_DIARY_SUBJECT +"'TEXT NOT NULL, "+
+                "'"+DB_Conn.Diary_Data.COLUMN_DIARY_MESSAGE +"'TEXT NOT NULL, "+
+                "'"+DB_Conn.Diary_Data.COLUMN_DIARY_DATE +"'TEXT NOT NULL, "+
+                "'"+DB_Conn.Diary_Data.COLUMN_DIARY_TIME +"'TEXT NOT NULL, "+
+                "'"+DB_Conn.Diary_Data.COLUMN_DIARY_ACCOUNT_ID+"'INTEGER NOT NULL)";
+
+        //Execute Database!
         try {
             db.execSQL(CREATE_USER_TABLE);
-            //Toast.makeText(context, "Database Created", Toast.LENGTH_SHORT).show();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
             db.execSQL(CREATE_ENTRYLIST_TABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            db.execSQL(CREATE_DIARY_TABLE);
         } catch (SQLException e) {
             e.printStackTrace();
         }

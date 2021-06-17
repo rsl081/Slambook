@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_sa_adnew_entry"
+    android:orientation="vertical"
+    tools:context=".ViewDiaryActivity">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <ImageView
+        android:id="@+id/profile_pic_diary"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/capture" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txt_view_subject_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="10dp"
+            android:text="Subject:"
+            android:textSize="20dp"
+            android:backgroundTint="#ffffff"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/view_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Happy"
+            android:layout_gravity="bottom"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txt_date_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="10dp"
+            android:text="Date:"
+            android:textSize="20dp"
+            android:backgroundTint="#ffffff"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/view_date_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6/18/2021"
+            android:layout_gravity="bottom"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txt_time_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="10dp"
+            android:text="Time:"
+            android:textSize="20dp"
+            android:backgroundTint="#ffffff"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/view_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6:30pm"
+            android:layout_gravity="bottom"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txt_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="10dp"
+            android:text="Diary:"
+            android:textSize="20dp"
+            android:backgroundTint="#ffffff"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/view_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="#ffffff"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae luctus dolor. Cras eget est ut nulla fermentum ornare quis a neque. Nunc id dui vitae tortor posuere sodales. Vivamus malesuada auctor rhoncus. Integer molestie arcu et mi tincidunt, at mattis dui pellentesque. Phasellus ultricies mauris sem, accumsan condimentum nunc interdum ultrices. Sed venenatis arcu suscipit mattis bibendum. Sed egestas sapien non nibh euismod, a efficitur ligula mattis. Donec interdum turpis ac tempor luctus. Maecenas vel ex lacinia, facilisis velit tristique, finibus metus.
+
+Suspendisse dapibus vestibulum est, vel vehicula sapien cursus ac. Duis hendrerit pretium mollis. Nunc imperdiet lectus mi, bibendum pulvinar diam hendrerit ut. Nullam gravida tempus urna vitae pellentesque. In eu ipsum sapien. Curabitur viverra imperdiet turpis, ac ultrices lorem lobortis sed. Sed blandit, nulla vel facilisis fermentum, lectus lorem consequat massa, vel varius elit nulla vitae dolor. Nulla in fringilla augue. Sed malesuada nisl non aliquet eleifend. Nullam pulvinar consequat cursus. Suspendisse id molestie elit. Nunc ullamcorper enim condimentum varius ultrices. Sed lacinia fermentum dolor, at tristique justo.
+
+Morbi vitae gravida urna. Cras ullamcorper, lacus et tempus iaculis, velit ante pellentesque purus, sed varius sapien mi non turpis. Quisque varius ipsum sed magna vehicula malesuada. Fusce tristique blandit lacus at aliquam. Nunc semper ornare lectus. Cras varius justo vitae mi iaculis dignissim. Fusce fermentum condimentum leo et blandit. Cras dictum nunc vitae est ultrices dictum.
+
+Nullam a dolor nibh. Donec cursus augue libero, ultrices iaculis nunc porttitor eu. Nulla facilisi. Nunc vitae elit sit amet urna tristique fermentum. Etiam quis lectus sit amet lacus feugiat sollicitudin. Aliquam faucibus viverra diam ac lacinia. Vivamus in elit rhoncus nisl convallis maximus vel eu sem. Sed id aliquam ante. Suspendisse potenti. Sed a tellus quis lectus auctor consectetur in sit amet mi. Proin volutpat sapien in massa dignissim cursus. Vestibulum finibus imperdiet magna, in fermentum augue vestibulum a. Donec condimentum tincidunt ipsum, eget commodo magna condimentum non. Morbi vel mollis lectus. Ut at tristique magna. Etiam ornare finibus urna non pulvinar.
+
+Aenean et blandit metus, non placerat neque. Vivamus commodo ac ligula tristique tincidunt. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam luctus mattis velit, ac auctor lorem convallis eget. Nam semper facilisis enim, vitae convallis tellus pulvinar at. Nunc fermentum sodales risus, id tempus turpis eleifend sed. Nunc fringilla malesuada diam, a luctus ipsum bibendum at. Etiam at magna vel dui laoreet tristique tristique sit amet massa. Fusce quis consectetur libero. Donec interdum diam vitae mi aliquam condimentum. Vivamus ut magna eu ex varius ornare eu vel eros."
+                android:textColor="#ffffff"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </ScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_go_back_todiarylist"
+        android:layout_width="315dp"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/gobacktodiarylist" />
+
+
+</LinearLayout>

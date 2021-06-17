@@ -134,13 +134,6 @@ public class PersonDb {
         person.setHobbies(cursor.getString(10));
         person.setGoals(cursor.getString(11));
 
-        // get The company by id
-//        long companyId = cursor.getLong(12);
-//        AccountDb accountDb = new AccountDb(mContext);
-//        Accounts accounts = accountDb.getAccountId(companyId);
-//        if (accounts != null) {
-//            person.setAccounts(accounts);
-//        }
         return person;
     }//end of Curly Braces CursorToPerson
 
@@ -199,4 +192,5 @@ public class PersonDb {
         }
         return rv;
     }// End oF Curly Braces Sender
+
 }//end of PeronDb

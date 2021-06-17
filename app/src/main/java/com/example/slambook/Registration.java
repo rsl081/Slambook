@@ -64,12 +64,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private EditText editLn;
     private EditText editFn;
     private EditText editMn;
-    private EditText editStreet;
-    private EditText editHouseNum;
-    private EditText editPhone;
-    private EditText editSecurityQ1;
-    private EditText editSecurityQ2;
-    private EditText editSecurityQ3;
+//    private EditText editStreet;
+//    private EditText editHouseNum;
+//    private EditText editPhone;
+//    private EditText editSecurityQ1;
+//    private EditText editSecurityQ2;
+//    private EditText editSecurityQ3;
 
     //Radio Button
     private RadioButton rbMale;
@@ -82,7 +82,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private EditText editClickableBday;
 
     //CheckBox
-    private CheckBox[] checkHobbies = new CheckBox[10];
+//    private CheckBox[] checkHobbies = new CheckBox[10];
 
     //Username -> Bday
     private String username;
@@ -164,26 +164,26 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         rbFemale = findViewById(R.id.rd_f);
         rbOthers = findViewById(R.id.rd_o);
 
-        //Address
-        editStreet = findViewById(R.id.edttxt_street);
-        editHouseNum = findViewById(R.id.edttxt_housenmbr);
-        mySpinners.MySpinner();
-
-        //Contact -> Security Question
-        editPhone = findViewById(R.id.edit_text_phone);
-        checkHobbies[0] = findViewById(R.id.id_Sleepingcheckbox);
-        checkHobbies[1] = findViewById(R.id.id_DancingcheckBox);
-        checkHobbies[2] = findViewById(R.id.id_CookingcheckBox);
-        checkHobbies[3] = findViewById(R.id.id_SingingcheckBox);
-        checkHobbies[4] = findViewById(R.id.id_BakingcheckBox);
-        checkHobbies[5] = findViewById(R.id.id_GardeningcheckBox);
-        checkHobbies[6] = findViewById(R.id.id_WritingcheckBox);
-        checkHobbies[7] = findViewById(R.id.id_ReadingcheckBox);
-        checkHobbies[8] = findViewById(R.id.id_WatchingcheckBox);
-        checkHobbies[9] = findViewById(R.id.id_PunchingcheckBox);
-        editSecurityQ1 = findViewById(R.id.id_SQ1answer);
-        editSecurityQ2 = findViewById(R.id.id_SQ2answer);
-        editSecurityQ3 = findViewById(R.id.id_SQ3answer);
+//        //Address
+//        editStreet = findViewById(R.id.edttxt_street);
+//        editHouseNum = findViewById(R.id.edttxt_housenmbr);
+//        mySpinners.MySpinner();
+//
+//        //Contact -> Security Question
+//        editPhone = findViewById(R.id.edit_text_phone);
+//        checkHobbies[0] = findViewById(R.id.id_Sleepingcheckbox);
+//        checkHobbies[1] = findViewById(R.id.id_DancingcheckBox);
+//        checkHobbies[2] = findViewById(R.id.id_CookingcheckBox);
+//        checkHobbies[3] = findViewById(R.id.id_SingingcheckBox);
+//        checkHobbies[4] = findViewById(R.id.id_BakingcheckBox);
+//        checkHobbies[5] = findViewById(R.id.id_GardeningcheckBox);
+//        checkHobbies[6] = findViewById(R.id.id_WritingcheckBox);
+//        checkHobbies[7] = findViewById(R.id.id_ReadingcheckBox);
+//        checkHobbies[8] = findViewById(R.id.id_WatchingcheckBox);
+//        checkHobbies[9] = findViewById(R.id.id_PunchingcheckBox);
+//        editSecurityQ1 = findViewById(R.id.id_SQ1answer);
+//        editSecurityQ2 = findViewById(R.id.id_SQ2answer);
+//        editSecurityQ3 = findViewById(R.id.id_SQ3answer);
 
         //Button
         btnRegister = findViewById(R.id.id_registerButton);
@@ -196,16 +196,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         btnRegister.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         editClickableBday.setOnClickListener(this);
-        checkHobbies[0].setOnClickListener(this);
-        checkHobbies[1].setOnClickListener(this);
-        checkHobbies[2].setOnClickListener(this);
-        checkHobbies[3].setOnClickListener(this);
-        checkHobbies[4].setOnClickListener(this);
-        checkHobbies[5].setOnClickListener(this);
-        checkHobbies[6].setOnClickListener(this);
-        checkHobbies[7].setOnClickListener(this);
-        checkHobbies[8].setOnClickListener(this);
-        checkHobbies[9].setOnClickListener(this);
         OnClickRadioButton();
     }
 
@@ -221,24 +211,24 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             case R.id.birthday:
                 datepickerdialog();
                 break;
-            case R.id.id_Sleepingcheckbox:
-            case R.id.id_DancingcheckBox:
-            case R.id.id_CookingcheckBox:
-            case R.id.id_SingingcheckBox:
-            case R.id.id_BakingcheckBox:
-            case R.id.id_GardeningcheckBox:
-            case R.id.id_WritingcheckBox:
-            case R.id.id_ReadingcheckBox:
-            case R.id.id_WatchingcheckBox:
-            case R.id.id_PunchingcheckBox:
-                CheckBox cb1 = (CheckBox) v;
-                selected = cb1.getText().toString();
-                if(cb1.isChecked()){
-                    listHobbies.add(selected);
-                }else{
-                    listHobbies.remove(selected);
-                }
-            break;
+//            case R.id.id_Sleepingcheckbox:
+//            case R.id.id_DancingcheckBox:
+//            case R.id.id_CookingcheckBox:
+//            case R.id.id_SingingcheckBox:
+//            case R.id.id_BakingcheckBox:
+//            case R.id.id_GardeningcheckBox:
+//            case R.id.id_WritingcheckBox:
+//            case R.id.id_ReadingcheckBox:
+//            case R.id.id_WatchingcheckBox:
+//            case R.id.id_PunchingcheckBox:
+//                CheckBox cb1 = (CheckBox) v;
+//                selected = cb1.getText().toString();
+//                if(cb1.isChecked()){
+//                    listHobbies.add(selected);
+//                }else{
+//                    listHobbies.remove(selected);
+//                }
+//            break;
             case R.id.capture:
                 CaptureImage();
             break;
@@ -312,18 +302,18 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         fullName = lastName + firstName + middleName;
 
         //Address
-        street = editStreet.getText().toString().trim();
-        houseNum = editHouseNum.getText().toString().trim();
+//        street = editStreet.getText().toString().trim();
+//        houseNum = editHouseNum.getText().toString().trim();
         barangay = mySpinners.Barangay();
         municipality = mySpinners.Municipality();
         province = mySpinners.Province();
         address = street + " " + houseNum + " " + barangay + "," + municipality + "," + province;
         //Contact -> Security Question
-        contact = editPhone.getText().toString();
-        securityQ1 = editSecurityQ1.getText().toString().trim();
-        securityQ2 = editSecurityQ2.getText().toString().trim();
-        securityQ3 = editSecurityQ3.getText().toString().trim();
-        secQuesText1 = mySpinners.SecQ1Method();
+//        contact = editPhone.getText().toString();
+//        securityQ1 = editSecurityQ1.getText().toString().trim();
+//        securityQ2 = editSecurityQ2.getText().toString().trim();
+//        securityQ3 = editSecurityQ3.getText().toString().trim();
+//        secQuesText1 = mySpinners.SecQ1Method();
         secQuesText2 = mySpinners.SecQ2Method();
         secQuesText3 = mySpinners.SecQ3Method();
 
@@ -356,9 +346,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     boolean IsError(){
         if( username.equals("") || password.equals("") ||
                 confirmPassword.equals("") || email.equals("") ||
-                bday.equals("") || gender.equals("") || listHobbies.isEmpty() ||
-                securityQ1.equals("") || securityQ2.equals("") || securityQ3.equals("") ||
-                contact.isEmpty() || lastName.equals("") || firstName.equals("")){
+                bday.equals("") || gender.equals("")){
             return true;
         }else{
             return false;
@@ -374,13 +362,13 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         String gendrs = "\nGender is Missing!\n";
         String fn = "\nFirstName is Missing!\n";
         String ln = "\nLastName is Missing!\n";
-        String strt = "\nStreet is Missing!\n";
-        String houseNumber = "\nHouse Number is Missing!\n";
-        String phone = "\nContact is Missing!\n";
-        String hby = "\nHobby is Missing!\n";
-        String q1 = "\nSecurity Question 1 is Missing!\n";
-        String q2 = "\nSecurity Question 2 is Missing!\n";
-        String q3 = "\nSecurity Question 3 is Missing!\n";
+//        String strt = "\nStreet is Missing!\n";
+//        String houseNumber = "\nHouse Number is Missing!\n";
+//        String phone = "\nContact is Missing!\n";
+//        String hby = "\nHobby is Missing!\n";
+//        String q1 = "\nSecurity Question 1 is Missing!\n";
+//        String q2 = "\nSecurity Question 2 is Missing!\n";
+//        String q3 = "\nSecurity Question 3 is Missing!\n";
 
         AlertDialog.Builder error = new AlertDialog.Builder(this);
         error.setTitle("Error/s!");
@@ -391,14 +379,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 (bday.matches("") ? birthday : birthday.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (gender.matches("") ? gendrs : gendrs.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
                 (firstName.matches("") ? fn : fn.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
-                (lastName.matches("") ? ln : ln.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
-                (street.matches("") ? strt : strt.replaceAll("[\n]", " ").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
-                (houseNum.matches("") ? houseNumber : houseNumber.replaceAll("[\n]", " ").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
-                (contact.matches("") ? phone : phone.replaceAll("[\n]", " ").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")) +
-                (listHobbies.isEmpty() ? hby : hby.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")).replaceAll("[0-9]","") +
-                (securityQ1.matches("") ? q1 : q1.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "").replaceAll("[0-9]","")) +
-                (securityQ2.matches("") ? q2 : q2.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "").replaceAll("[0-9]","")) +
-                (securityQ3.matches("") ? q3 : q3.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "").replaceAll("[0-9]","")));
+                (lastName.matches("") ? ln : ln.replaceAll("[\n]", "").replaceAll("([a-z])", "").replaceAll("([A-Z])", "").replaceAll("!", "")));
 
         error.setPositiveButton("Okay",null);
         error.show();
@@ -413,13 +394,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 "\nEmailAddress: \n" + email + "\n" +
                 "\nBirthday: \n" + bday + "\n" +
                 (fullName.matches("") ? "\nFullName:*\n" : "\nFullName: \n" +(fullName = lastName + " " + firstName + " " + middleName)) + "\n" +
-                "\nGender: \n" + gender + "\n" +
-                "\nAddress: \n" + address + "\n" +
-                "\nContact: \n" + contact + "\n" +
-                "\nHobby/s: \n" + stringBuildHobby + "\n" +
-                "\n"+secQuesText1+ ": \n" + securityQ1 + "\n" +
-                "\n"+secQuesText2+ ": \n" + securityQ2 + "\n" +
-                "\n"+secQuesText3+ ": \n" + securityQ3);
+                "\nGender: \n" + gender);
         error.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
